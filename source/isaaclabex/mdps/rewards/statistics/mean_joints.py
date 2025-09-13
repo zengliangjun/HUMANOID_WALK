@@ -32,7 +32,7 @@ def rew_mean_zero(
     env: ManagerBasedRLEnv,
     asset_cfg: SceneEntityCfg,
     pos_statistics_name: str = "pos",
-    std: float = 0.1,
+    error_std: float = 0.1,
 ) -> torch.Tensor:
 
     assert isinstance(env, ManagerBasedRLEnv)
@@ -41,9 +41,9 @@ def rew_mean_zero(
 
     episode_mean = term.episode_mean_buf[:, asset_cfg.joint_ids]
 
-    reward = _exp_zero(torch.abs(episode_mean), std)
+    reward = _exp_zero(torch.abs(episode_mean), error_std)
 
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
@@ -67,7 +67,7 @@ def rew_mean_symmetry(
     means1 = episode_mean[:, 1::2]
     diff = torch.abs(means0 - means1)
     reward = _exp_zero(diff, error_std)  # double weight
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
@@ -91,14 +91,14 @@ def rew_mean_step_symmetry(
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
         step_mean_mean = term.step_mean_mean_buf[:, step_ids]
-        zeros = torch.abs(pos[:, ::2] + pos[:, 1::2] - step_mean_mean * 2)
+        zeros = (torch.abs(pos[:, ::2] + pos[:, 1::2]) + torch.abs(step_mean_mean)) / 2
         reward = _exp_zero(zeros, error_std)
 
     elif type == mirror_or_synchronize.SYNCHRONIZE:
         zeros = torch.abs(pos[:, ::2] - pos[:, 1::2]) ###
         reward = _exp_zero(zeros, error_std)
 
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
@@ -132,7 +132,7 @@ def rew_mean_constraint(
 
     constraint_reward /= len(means)
     reward = constraint_reward
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))

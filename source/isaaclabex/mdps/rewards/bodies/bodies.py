@@ -213,3 +213,30 @@ def penalize_collision(
     # Sum the collision flags across the body parts to compute the overall penalty per environment sample
     return torch.sum(collision, dim=1)
 # Inline and parameter annotations already improve code readability.
+
+def rew_pitch_total2zero(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg,
+    sensor_cfg: SceneEntityCfg,
+) -> torch.Tensor:
+
+    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
+    # Extract the net force values for the specified body parts from the sensor data
+    iscontact = torch.norm(contact_sensor.data.net_forces_w[:, sensor_cfg.body_ids], dim=-1) > 1
+
+
+    # Retrieve the articulation asset.
+    asset: Articulation = env.scene[asset_cfg.name]
+    # Extract current and default joint positions.
+    pose = asset.data.joint_pos[:, asset_cfg.joint_ids]
+
+    total0 = torch.abs(torch.sum(pose[:, ::2], dim=-1))
+    total1 = torch.abs(torch.sum(pose[:, 1::2], dim=-1))
+
+    reward0 = torch.exp(-total0)
+    reward1 = torch.exp(-total1)
+
+    reward0[iscontact[:, 0]] = 0
+    reward1[iscontact[:, 1]] = 0
+
+    return (reward0 + reward1) / 2

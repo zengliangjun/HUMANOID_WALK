@@ -122,8 +122,8 @@ class ObservationsCfg:
         self.critic.phase = None
 
     # observation groups
-    action_statistics: ActionStatisticsCfg = ActionStatisticsCfg()
-    pos_statistics: PosStatisticsCfg = PosStatisticsCfg()
+    # action_statistics: ActionStatisticsCfg = ActionStatisticsCfg()
+    # pos_statistics: PosStatisticsCfg = PosStatisticsCfg()
 
     # observation groups
     policy: PolicyCfg = PolicyCfg()

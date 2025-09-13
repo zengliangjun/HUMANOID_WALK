@@ -12,3 +12,7 @@ p_action_rate2_l2 = actions.penalize_action_rate2_l2
 p_action_rate_norm = spot_rewards.action_smoothness_penalty         # Norm penalty to smooth action changes.
 p_action_smoothness = actions.penalize_action_smoothness            # Direct smoothness penalty for actions.
 p_action_l2 = isaaclab_rewards.action_l2                            # L2 penalty on action magnitude.
+
+from .pbrs import pbrs_actions
+
+pbrs_action_smoothness = pbrs_actions.action_smoothness

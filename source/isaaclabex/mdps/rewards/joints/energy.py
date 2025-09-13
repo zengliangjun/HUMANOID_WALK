@@ -17,7 +17,7 @@ def energy_cost(env: ManagerBasedRLEnv,
     '''
 
     asset: Articulation = env.scene[asset_cfg.name]
-    joint_torque = asset.data.applied_torque
-    joint_vel = asset.data.joint_vel
+    joint_torque = asset.data.applied_torque[:, asset_cfg.joint_ids]
+    joint_vel = asset.data.joint_vel[:, asset_cfg.joint_ids]
 
     return torch.sum(torch.abs(joint_torque * joint_vel), dim = -1)

@@ -25,6 +25,7 @@ class penalize_action_smoothness(ManagerTermBase):
         self.prev_prev_action[env_ids] = 0
 
     def __call__(self, env: ManagerBasedRLEnv,
+                 asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
                  weight1: float = 1,    # Weight for penalizing first-order difference (current vs previous)
                  weight2: float = 1,    # Weight for penalizing second-order difference (acceleration)
                  weight3: float = 0.05, # Weight for penalizing absolute action magnitude
@@ -42,12 +43,13 @@ class penalize_action_smoothness(ManagerTermBase):
             Tensor: Total smoothness penalty.
         """
         # Term for penalizing deviation between current and previous action.
-        term_1 = torch.sum(torch.square(env.action_manager.action - env.action_manager.prev_action), dim=1) * weight1
+        diff = (env.action_manager.action - env.action_manager.prev_action)[: , asset_cfg.joint_ids]
+        term_1 = torch.sum(torch.square(diff), dim=1) * weight1
         # Term for penalizing second-order difference (action acceleration).
-        term_2 = torch.sum(torch.square(
-            env.action_manager.action + self.prev_prev_action - 2 * env.action_manager.prev_action), dim=1) * weight2
+        diff2 = (env.action_manager.action + self.prev_prev_action - 2 * env.action_manager.prev_action)[: , asset_cfg.joint_ids]
+        term_2 = torch.sum(torch.square(diff2), dim=1) * weight2
         # Term for penalizing high action magnitude via L1 norm.
-        term_3 = torch.sum(torch.abs(env.action_manager.action), dim=1) * weight3
+        term_3 = torch.sum(torch.abs(env.action_manager.action[: , asset_cfg.joint_ids]), dim=1) * weight3
 
         # Update previous previous action for the next iteration.
         self.prev_prev_action[...] = env.action_manager.prev_action

@@ -4,7 +4,7 @@ from isaaclab_tasks.manager_based.classic.humanoid.mdp import rewards as humanoi
 from isaaclab_tasks.manager_based.locomotion.velocity.mdp import rewards as loc_rewards
 from isaaclab_tasks.manager_based.locomotion.velocity.config.spot.mdp import rewards as spot_rewards
 
-from .bodies import base, body
+from .bodies import base, bodies
 
 """
 Base Rewards and Penalties:
@@ -26,12 +26,20 @@ Body Rewards:
 Penalties and rewards specific to the body dynamics.
 """
 p_body_lin_acc_l2 = isaaclab_rewards.body_lin_acc_l2               # L2 penalty on body linear acceleration.
-rew_body_distance = body.reward_distance                              # Reward based on body distance metric.
-rew_width = body.reward_width                                 # Reward based on body width metric.
-p_width = body.penalize_width
+rew_body_distance = bodies.reward_distance                              # Reward based on body distance metric.
+rew_width = bodies.reward_width                                 # Reward based on body width metric.
+p_width = bodies.penalize_width
 
-rew_stability = body.Stability
+rew_stability = bodies.Stability
 
 
 p_undesired_contacts = isaaclab_rewards.undesired_contacts           # Penalty for undesired contacts.
-penalize_contacts = body.penalize_collision
+penalize_contacts = bodies.penalize_collision
+
+rew_pitch_total2zero = bodies.rew_pitch_total2zero
+
+
+
+from .pbrs import pbrs_bodies
+
+pbrs_width = pbrs_bodies.width

@@ -29,7 +29,7 @@ def rew_variance_zero(
     episode_variance = term.episode_variance_buf[:, asset_cfg.joint_ids]
 
     reward = _exp_zero(episode_variance, error_std)
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
@@ -78,7 +78,7 @@ def rew_variance_symmetry(
         diff = (torch.sqrt(diff) + step_variance_mean) / 2
         reward += _exp_zero(diff, error_std)
 
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
@@ -105,9 +105,9 @@ def rew_variance_constraint(
     diffmin = torch.clamp(episode_variance - min_constraint, -50, 0)
     diffmax = torch.clamp(episode_variance - max_constraint, 0, 50)
     ##
-    error = torch.abs(diffmin) * 3 + diffmax
+    error = torch.abs(diffmin) + diffmax
     reward = _exp_zero(error, error_std)
-    reward = torch.mean(reward, dim=-1)
+    reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
     diff_reward = torch.exp(-torch.norm(term.diff[:, asset_cfg.joint_ids], dim = -1))
