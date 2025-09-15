@@ -45,6 +45,7 @@ class mean_symmetry(pbrs_base.PbrsBase):
 
         asset_cfg: SceneEntityCfg,
         pos_statistics_name: str = "pos",
+        type: mean_joints.mirror_or_synchronize = mean_joints.mirror_or_synchronize.NONE,
         error_std: float = 0.1,
 
         method: int = pbrs_base.PBRSNormal,
@@ -53,7 +54,8 @@ class mean_symmetry(pbrs_base.PbrsBase):
         ) -> torch.Tensor:
 
         _penalize = mean_joints.rew_mean_symmetry \
-                (env=env, asset_cfg=asset_cfg, pos_statistics_name = pos_statistics_name, error_std = error_std)
+                (env=env, asset_cfg=asset_cfg, pos_statistics_name = pos_statistics_name,
+                type=type, error_std = error_std)
         return self._calculate(_penalize)
 
 

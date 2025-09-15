@@ -115,72 +115,132 @@ class CurriculumCfg:
                     "start_weight": -0.008,
                     "end_weight": -0.05
                 },
-                'p_action_rate_static': {    # reward name
+                'p_action_rate_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -5e-3,
                     "end_weight": -2e-2
                 },
-                'p_action_rate_dynamic': {    # reward name
+                'p_action_rate_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -5e-3,
                     "end_weight": -2e-2
                 },
-                'p_action_smoothness_static': {    # reward name
+                'p_action_rate_LS': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -5e-3,
+                    "end_weight": -2e-2
+                },
+                'p_action_rate_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -5e-3,
+                    "end_weight": -2e-2
+                },
+                'p_action_smoothness_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -8e-4,
                     "end_weight": -4e-3
                 },
-                'p_action_smoothness_dynamic': {    # reward name
+                'p_action_smoothness_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -8e-4,
                     "end_weight": -4e-3
                 },
-                'p_energy_static': {    # reward name
+                'p_action_smoothness_LS': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -8e-4,
+                    "end_weight": -4e-3
+                },
+                'p_action_smoothness_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -8e-4,
+                    "end_weight": -4e-3
+                },
+                'p_energy_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -4e-6,
                     "end_weight": -2e-5
                 },
-                'p_energy_dynamic': {    # reward name
+                'p_energy_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -4e-6,
                     "end_weight": -2e-5
                 },
-                'p_pos_limits_static': {    # reward name
+                'p_energy_LS': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -4e-6,
+                    "end_weight": -2e-5
+                },
+                'p_energy_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -4e-6,
+                    "end_weight": -2e-5
+                },
+                'p_pos_limits_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -1.0,
                     "end_weight": -5.0
                 },
-                'p_pos_limits_dynamic': {    # reward name
+                'p_pos_limits_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -1.0,
                     "end_weight": -5.0
                 },
-                'p_jvel_static': {    # reward name
+                'p_pos_limits_LS': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -1.0,
+                    "end_weight": -5.0
+                },
+                'p_pos_limits_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -1.0,
+                    "end_weight": -5.0
+                },
+                'p_jvel_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -2e-4,
                     "end_weight": -1e-3
                 },
-                'p_jvel_dynamic': {    # reward name
+                'p_jvel_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -2e-4,
                     "end_weight": -1e-3
                 },
-                'p_jacc_static': {    # reward name
+                'p_jvel_LS': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -2e-4,
+                    "end_weight": -1e-3
+                },
+                'p_jvel_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -2e-4,
+                    "end_weight": -1e-3
+                },
+                'p_jacc_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -2.5e-8,
                     "end_weight": -2.5e-7
                 },
-                'p_jacc_dynamic': {    # reward name
+                'p_jacc_UD': {    # reward name
                     "param_name": "weight",
                     "start_weight": -2.5e-8,
                     "end_weight": -2.5e-7
                 },
-                'p_deviation_arms': {    # reward name
+                'p_jacc_LS': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -2e-2,
-                    "end_weight": -0.1
+                    "start_weight": -2.5e-8,
+                    "end_weight": -2.5e-7
                 },
-                'p_deviation_waists': {    # reward name
+                'p_jacc_LD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -2.5e-8,
+                    "end_weight": -2.5e-7
+                },
+                'p_deviation_UD': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": -0.16,
+                    "end_weight": -0.8
+                },
+                'p_deviation_US': {    # reward name
                     "param_name": "weight",
                     "start_weight": -0.2,
                     "end_weight": -1
@@ -195,20 +255,10 @@ class CurriculumCfg:
                     "start_weight": -1,
                     "end_weight": -5
                 },
-                'p_handwidth': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": -1,
-                    "end_weight": -5
-                },
                 'p_orientation': {    # reward name
                     "param_name": "weight",
                     "start_weight": -1,
                     "end_weight": -5
-                },
-                'p_height': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": -2.0,
-                    "end_weight": -8.0
                 },
                 'p_feet_vertical_force': {    # reward name
                     "param_name": "weight",

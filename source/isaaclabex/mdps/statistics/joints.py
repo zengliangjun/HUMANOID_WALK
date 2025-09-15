@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING
 
 from isaaclab.assets import Articulation
 from isaaclab.managers import ActionManager, ManagerTermBase, SceneEntityCfg
+from isaaclab.envs.mdp.commands import UniformVelocityCommand
 
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedRLEnv
@@ -215,8 +216,8 @@ class StatusBase(ManagerTermBase):
         self.step_variance_variance_buf[reset_mask] = 0
 
     def _update_flag(self):
-        command = self._env.command_manager.get_command(self.command_name)
-        self.stand_flag[...] = torch.norm(command, dim=1) < 0.1
+        command: UniformVelocityCommand = self._env.command_manager.get_term(self.command_name)
+        self.stand_flag[...] = command.is_standing_env
         self.zero_flag[...] = self._env.episode_length_buf <= 1
 
 

@@ -3,13 +3,12 @@ from __future__ import annotations
 import torch
 from typing import TYPE_CHECKING
 from isaaclab.utils import math
-from collections.abc import Sequence
 from isaaclab.assets import Articulation
-from isaaclab.managers import ManagerTermBase, SceneEntityCfg
+from isaaclab.managers import SceneEntityCfg
+from isaaclab.envs.mdp.commands import UniformVelocityCommand
 
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedRLEnv
-    from isaaclab.managers import RewardTermCfg
 
 def penalize_base_height(env: ManagerBasedRLEnv,
     target_height: float,
@@ -35,6 +34,41 @@ def penalize_base_height(env: ManagerBasedRLEnv,
 
     # Return L2 squared penalty based on the difference from target height
     return torch.square(body_height - target_height)
+
+def reward_penalize_base_height(env: ManagerBasedRLEnv,
+    target_height: float,
+    error_std: float = 0.025,
+    penalize_weight: float = -3.0,
+    command_name: str = "base_velocity",
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    Penalizes deviation of the robot's base height from the target height using L2 squared error.
+
+    Args:
+        env (ManagerBasedRLEnv): Environment instance for simulation.
+        target_height (float): Desired target height for the robot's base.
+        asset_cfg (SceneEntityCfg): Configuration for the asset, defaulting to "robot".
+
+    Returns:
+        torch.Tensor: L2 squared penalty of the base height deviation.
+    """
+    asset: Articulation = env.scene[asset_cfg.name]
+
+    # Get the individual feet heights and select the minimum (ground contact)
+    feet_heights = asset.data.body_pos_w[:, asset_cfg.body_ids, 2]
+    feet_height = torch.min(feet_heights, dim=-1)[0]
+    # Compute body height as absolute difference between base height and lowest foot height
+    base_height = torch.abs(asset.data.root_pos_w[:, 2] - feet_height)
+
+    command: UniformVelocityCommand = env.command_manager.get_term(command_name)
+    stand_flag = command.is_standing_env
+
+    base_height[stand_flag] = torch.abs(base_height[stand_flag] - target_height)
+    walk_flag = torch.logical_not(stand_flag)
+    base_height[walk_flag] = torch.abs(base_height[walk_flag] - (target_height - error_std))
+
+    # Return L2 squared penalty based on the difference from target height
+    return torch.exp(- base_height / error_std) + penalize_weight * (base_height / error_std)
 
 def reward_penalize_height_upper(env: ManagerBasedRLEnv,
     target_height: float,

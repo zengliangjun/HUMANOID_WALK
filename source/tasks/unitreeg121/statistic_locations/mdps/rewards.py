@@ -4,35 +4,51 @@ from isaaclab.managers import RewardTermCfg, SceneEntityCfg
 from isaaclabex.mdps.rewards import rew_task, rew_actions, rew_joints, rew_bodies, rew_feet, rew_episode
 import math
 
-joint_names_static =[
-            ".*_shoulder_.*_joint",
+joint_US =[
+        ".*_shoulder_roll_joint",
+        ".*_shoulder_yaw_joint",
+        "waist.*",
+        ]
+
+joint_UD =[
+            ".*_shoulder_pitch_joint",
             ".*_elbow_joint",
-            # ".*_wrist_.*",
+        ]
+
+joint_LS =[
             ".*_hip_roll_joint",
             ".*_hip_yaw_joint",
             ".*_ankle_roll_joint",
-            "waist_.*_joint",
         ]
 
-joint_names_dynamic =[
+joint_LD =[
             ".*_knee_joint",
             ".*_hip_pitch_joint",
             ".*_ankle_pitch_joint",
         ]
 
-
-params_static = {
+params_US = {
     "asset_cfg":
         SceneEntityCfg("robot",
-        joint_names=joint_names_static)
+        joint_names=joint_US)
     }
-
-params_dynamic = {
+params_UD = {
     "asset_cfg":
         SceneEntityCfg("robot",
-        joint_names=joint_names_dynamic)
+        joint_names=joint_UD)
     }
 
+params_LS = {
+    "asset_cfg":
+        SceneEntityCfg("robot",
+        joint_names=joint_LS)
+    }
+
+params_LD = {
+    "asset_cfg":
+        SceneEntityCfg("robot",
+        joint_names=joint_LD)
+    }
 
 @configclass
 class RewardsCfg:
@@ -70,37 +86,71 @@ class RewardsCfg:
     p_angular_velocity = RewardTermCfg(func=rew_task.p_ang_xy_l2, weight=-0.05)
 
     # action # 4
-    p_action_rate_static = RewardTermCfg(
+    p_action_rate_US = RewardTermCfg(
         func=rew_actions.p_action_rate2_l2,
         weight=-0.02,
-        params=params_static
+        params=params_US
     )
-    p_action_rate_dynamic = RewardTermCfg(
+    p_action_rate_UD = RewardTermCfg(
         func=rew_actions.p_action_rate2_l2,
         weight=-0.02,
-        params=params_dynamic
+        params=params_UD
+    )
+    p_action_rate_LS = RewardTermCfg(
+        func=rew_actions.p_action_rate2_l2,
+        weight=-0.02,
+        params=params_LS
+    )
+    p_action_rate_LD = RewardTermCfg(
+        func=rew_actions.p_action_rate2_l2,
+        weight=-0.02,
+        params=params_LD
     )
 
-    p_action_smoothness_static = RewardTermCfg(
+    p_action_smoothness_US = RewardTermCfg(
         func=rew_actions.p_action_smoothness,
         weight=-0.004,
         params={
             "asset_cfg":
                 SceneEntityCfg("robot",
-                    joint_names=joint_names_static),
+                    joint_names=joint_US),
+            "weight1": 1,
+            "weight2": 1,
+            "weight3": 0.05,
+            },
+    )
+    p_action_smoothness_UD = RewardTermCfg(
+        func=rew_actions.p_action_smoothness,
+        weight=-0.004,
+        params={
+            "asset_cfg":
+                SceneEntityCfg("robot",
+                    joint_names=joint_UD),
+            "weight1": 1,
+            "weight2": 1,
+            "weight3": 0.05,
+            },
+    )
+    p_action_smoothness_LS = RewardTermCfg(
+        func=rew_actions.p_action_smoothness,
+        weight=-0.004,
+        params={
+            "asset_cfg":
+                SceneEntityCfg("robot",
+                    joint_names=joint_LS),
             "weight1": 1,
             "weight2": 1,
             "weight3": 0.05,
             },
     )
 
-    p_action_smoothness_dynamic = RewardTermCfg(
+    p_action_smoothness_LD = RewardTermCfg(
         func=rew_actions.p_action_smoothness,
         weight=-0.004,
         params={
             "asset_cfg":
                 SceneEntityCfg("robot",
-                joint_names=joint_names_dynamic),
+                joint_names=joint_LD),
             "weight1": 1,
             "weight2": 1,
             "weight3": 0.05,
@@ -108,66 +158,106 @@ class RewardsCfg:
     )
 
     # joints
-    p_energy_static = RewardTermCfg(
+    p_energy_US = RewardTermCfg(
         func=rew_joints.p_energy,
         weight=-2e-5,
-        params=params_static,
+        params=params_US,
     )
-    p_energy_dynamic = RewardTermCfg(
+    p_energy_UD = RewardTermCfg(
         func=rew_joints.p_energy,
         weight=-2e-6,
-        params=params_dynamic,
+        params=params_UD,
+    )
+    p_energy_LS = RewardTermCfg(
+        func=rew_joints.p_energy,
+        weight=-2e-5,
+        params=params_LS,
+    )
+    p_energy_LD = RewardTermCfg(
+        func=rew_joints.p_energy,
+        weight=-2e-6,
+        params=params_LD,
     )
 
-    p_pos_limits_static = RewardTermCfg(
+    p_pos_limits_US = RewardTermCfg(
         func=rew_joints.p_jpos_limits_l1,
         weight=-5.0,
-        params=params_static,
+        params=params_US,
     )
-    p_pos_limits_dynamic = RewardTermCfg(
+    p_pos_limits_UD = RewardTermCfg(
         func=rew_joints.p_jpos_limits_l1,
         weight=-5.0,
-        params=params_dynamic
+        params=params_UD
+    )
+    p_pos_limits_LS = RewardTermCfg(
+        func=rew_joints.p_jpos_limits_l1,
+        weight=-5.0,
+        params=params_LS,
+    )
+    p_pos_limits_LD = RewardTermCfg(
+        func=rew_joints.p_jpos_limits_l1,
+        weight=-5.0,
+        params=params_LD
     )
 
-    p_jvel_static = RewardTermCfg(
+    p_jvel_US = RewardTermCfg(
         func=rew_joints.p_jvel_l2,
         weight=-1e-3,
-        params=params_static
+        params=params_US
     )
-    p_jvel_dynamic = RewardTermCfg(
+    p_jvel_UD = RewardTermCfg(
         func=rew_joints.p_jvel_l2,
         weight=-1e-3,
-        params=params_dynamic
+        params=params_UD
+    )
+    p_jvel_LS = RewardTermCfg(
+        func=rew_joints.p_jvel_l2,
+        weight=-1e-3,
+        params=params_LS
+    )
+    p_jvel_LD = RewardTermCfg(
+        func=rew_joints.p_jvel_l2,
+        weight=-1e-3,
+        params=params_LD
     )
 
-    p_jacc_static = RewardTermCfg(
+    p_jacc_US = RewardTermCfg(
         func=rew_joints.p_jacc_l2,
         weight=-2.5e-7,
-        params=params_static
+        params=params_US
     )
 
-    p_jacc_dynamic = RewardTermCfg(
+    p_jacc_UD = RewardTermCfg(
         func=rew_joints.p_jacc_l2,
         weight=-2.5e-7,
-        params=params_dynamic
+        params=params_UD
+    )
+    p_jacc_LS = RewardTermCfg(
+        func=rew_joints.p_jacc_l2,
+        weight=-2.5e-7,
+        params=params_LS
     )
 
-    p_deviation_arms = RewardTermCfg(
+    p_jacc_LD = RewardTermCfg(
+        func=rew_joints.p_jacc_l2,
+        weight=-2.5e-7,
+        params=params_LD
+    )
+
+    p_deviation_UD = RewardTermCfg(
         func=rew_joints.p_jpos_deviation_l1,
         weight=-0.1,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot",
                 joint_names=[
-                    ".*_shoulder_.*_joint",
+                    ".*_shoulder_pitch_joint",
                     ".*_elbow_joint",
-                    # ".*_wrist_.*",
                 ],
             )
         },
     )
-    p_deviation_waists = RewardTermCfg(
+    p_deviation_US = RewardTermCfg(
         func=rew_joints.p_jpos_deviation_l1,
         weight=-1,
         params={
@@ -175,6 +265,8 @@ class RewardsCfg:
                 "robot",
                 joint_names=[
                     "waist.*",
+                    ".*_shoulder_roll_joint",
+                    ".*_shoulder_yaw_joint",
                 ],
             )
         },
@@ -200,13 +292,12 @@ class RewardsCfg:
                                      ".*right_knee_link"]),
             },
     )
-    p_handwidth = RewardTermCfg(
-        func=rew_bodies.p_width,
-        weight=-5,
+    rew_handwidth = RewardTermCfg(
+        func=rew_bodies.rew_body_distance_b,
+        weight=0.1,
         params={
-            "target_width": 0.32,  # Adjusting for the foot clearance
-            "target_height": 0.78,
-            "center_velocity": 1.8,
+            "max_threshold": 0.50,  # Adjusting for the foot clearance
+            "min_threshold": 0.32,
             "asset_cfg": SceneEntityCfg("robot",
                          body_names=[".*left_elbow_link",
                                      ".*right_elbow_link",
@@ -218,10 +309,13 @@ class RewardsCfg:
         func=rew_bodies.p_ori_l2,
         weight=-5, params={"asset_cfg": SceneEntityCfg("robot")}
     )
-    p_height = RewardTermCfg(
-        func=rew_bodies.p_height_base2feet,
-        weight=-8.0, params={
-            "target_height": 0.78 - 0.035,  # Adjusting for the foot clearance
+    rp_height = RewardTermCfg(
+        func=rew_bodies.rp_base_height,
+        weight=0.25, params={
+            "target_height": 0.75686,  # Adjusting for the foot clearance
+            "error_std": 0.042,
+            "penalize_weight": -0.8,
+            "command_name": "base_velocity",
             "asset_cfg": SceneEntityCfg("robot",
                          body_names=".*_ankle_roll_link")}
     )
@@ -356,24 +450,20 @@ class RewardsCfg:
     )
 
     # -------------------- Episode Penalty --------------------
-    '''
     p_termination = RewardTermCfg(
         func=rew_episode.p_eps_terminated,
         weight=-100,
     )
-    '''
+
     rew_alive = RewardTermCfg(
         func=rew_episode.rew_eps_alive,
         weight=0.15,
     )
 
-if False:
-    from .rewards_uper import RewardsUperCfg
-    from .rewards_leg import RewardsLegCfg
-else:
-    from .rewards_upper import RewardsUperCfg
-    from .rewards_leg import RewardsLegCfg
+from . import rewards_upper, rewards_leg
+
 
 @configclass
-class RewardsG21Cfg(RewardsUperCfg, RewardsLegCfg, RewardsCfg):
+#class RewardsG21Cfg(rewards_upper.RewardsUperCfg, rewards_leg.RewardsLegCfg, RewardsCfg):
+class RewardsG21Cfg(rewards_upper.PBRSUperCfg, rewards_leg.PBRSLegCfg, RewardsCfg):
     pass

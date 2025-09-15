@@ -74,7 +74,7 @@ class RewardsLegCfg():
     '''
     rew_mean_leg_zero = RewardTermCfg(
         func=rew_statistics.rew_mean_zero,
-        weight=0.01,
+        weight=0.04,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         ".*_hip_roll_joint",
@@ -83,12 +83,73 @@ class RewardsLegCfg():
                         ".*_ankle_roll_joint",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.15,
+                "error_std": 0.02,
                 }
     )
     rew_var_leg_zero = RewardTermCfg(
         func=rew_statistics.rew_variance_zero,
-        weight=0.01,
+        weight=0.04,
+        params={"asset_cfg": SceneEntityCfg("robot",
+                    joint_names=[
+                        ".*_hip_roll_joint",
+                        ".*_hip_yaw_joint",
+                        ".*_ankle_pitch_joint",
+                        ".*_ankle_roll_joint",
+                        ]),
+                "pos_statistics_name": "pos",
+                "error_std": 0.005,
+                }
+    )
+
+@configclass
+class PBRSLegCfg(RewardsLegCfg):
+    rew_mean_leg_symmetry = RewardTermCfg(
+        func=rew_statistics.pbrs_mean_symmetry,
+        weight= 1,
+        params={"asset_cfg": SceneEntityCfg("robot",
+                    joint_names=[
+                        "left_hip_pitch_joint",
+                        "right_hip_pitch_joint",
+                        "left_knee_joint",
+                        "right_knee_joint"
+                        ]),
+                "pos_statistics_name": "pos",
+                "type": rew_statistics.mirror_or_synchronize.MIRROR,
+                "error_std": 0.1,
+                }
+    )
+    rew_var_leg_symmetry = RewardTermCfg(
+        func=rew_statistics.pbrs_variance_symmetry,
+        weight=1,
+        params={"asset_cfg": SceneEntityCfg("robot",
+                    joint_names=[
+                        "left_hip_pitch_joint",
+                        "right_hip_pitch_joint",
+                        "left_knee_joint",
+                        "right_knee_joint"
+                        ]),
+                "pos_statistics_name": "pos",
+                "type": rew_statistics.mirror_or_synchronize.MIRROR,
+                "error_std": 0.008,
+                }
+    )
+    rew_mean_leg_zero = RewardTermCfg(
+        func=rew_statistics.pbrs_mean_zero,
+        weight=1,
+        params={"asset_cfg": SceneEntityCfg("robot",
+                    joint_names=[
+                        ".*_hip_roll_joint",
+                        ".*_hip_yaw_joint",
+                        ".*_ankle_pitch_joint",
+                        ".*_ankle_roll_joint",
+                        ]),
+                "pos_statistics_name": "pos",
+                "error_std": 0.02,
+                }
+    )
+    rew_var_leg_zero = RewardTermCfg(
+        func=rew_statistics.pbrs_variance_zero,
+        weight=1,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         ".*_hip_roll_joint",

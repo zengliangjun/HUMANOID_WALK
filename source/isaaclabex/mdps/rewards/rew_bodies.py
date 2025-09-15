@@ -19,6 +19,7 @@ rew_ori_euler_gravity_b = base.reward_orientation_euler_gravity_b  # Euler-based
 # Height-based rewards/penalties.
 p_height_flat_or_rayl2 = isaaclab_rewards.base_height_l2         # L2 penalty on base height error (flat/ray).
 p_height_base2feet = base.penalize_base_height                   # Penalty for mismatch in base-to-feet height.
+rp_base_height = base.reward_penalize_base_height
 rp_height_upper = base.reward_penalize_height_upper
 
 """
@@ -27,6 +28,7 @@ Penalties and rewards specific to the body dynamics.
 """
 p_body_lin_acc_l2 = isaaclab_rewards.body_lin_acc_l2               # L2 penalty on body linear acceleration.
 rew_body_distance = bodies.reward_distance                              # Reward based on body distance metric.
+rew_body_distance_b = bodies.reward_distance_b                              # Reward based on body distance metric.
 rew_width = bodies.reward_width                                 # Reward based on body width metric.
 p_width = bodies.penalize_width
 
