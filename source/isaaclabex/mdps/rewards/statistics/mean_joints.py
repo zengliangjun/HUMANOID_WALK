@@ -54,6 +54,7 @@ def rew_mean_symmetry(
     env: ManagerBasedRLEnv,
     asset_cfg: SceneEntityCfg,
     pos_statistics_name: str = "pos",
+    type: mirror_or_synchronize = mirror_or_synchronize.NONE,
     error_std: float = 0.1
 ) -> torch.Tensor:
 
@@ -67,6 +68,12 @@ def rew_mean_symmetry(
     means1 = episode_mean[:, 1::2]
     diff = torch.abs(means0 - means1)
     reward = _exp_zero(diff, error_std)  # double weight
+
+    if type == mirror_or_synchronize.MIRROR:
+        step_ids = term.step_ids(asset_cfg)
+        mean_error = torch.abs(term.step_mean_mean_buf[:, step_ids])
+        reward = reward + _exp_zero(mean_error, error_std) / 3
+
     reward = torch.sum(reward, dim=-1)
 
     flag = torch.logical_or(term.stand_flag, term.zero_flag)
@@ -91,7 +98,7 @@ def rew_mean_step_symmetry(
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
         step_mean_mean = term.step_mean_mean_buf[:, step_ids]
-        zeros = (torch.abs(pos[:, ::2] + pos[:, 1::2]) + torch.abs(step_mean_mean)) / 2
+        zeros = torch.abs(pos[:, ::2] + pos[:, 1::2] - 2 * step_mean_mean)
         reward = _exp_zero(zeros, error_std)
 
     elif type == mirror_or_synchronize.SYNCHRONIZE:

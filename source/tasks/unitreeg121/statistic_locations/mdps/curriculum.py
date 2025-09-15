@@ -237,39 +237,9 @@ class CurriculumCfg:
                 },
                 'rew_alive': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -3e-2,
+                    "start_weight": 3e-2,
                     "end_weight": 0.1
                 },
-                'rew_var_hk_symmetry': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.04,
-                    "end_weight": 0.04
-                },
-                'rew_var_hk_constraint': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.03,
-                    "end_weight": 0.03
-                },
-                'rew_mean_leg_zero': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.015,
-                    "end_weight": 0.015
-                },
-                'rew_var_leg_zero': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.03,
-                    "end_weight": 0.03
-                },
-                'rew_var_uper_symmetry': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.04,
-                    "end_weight": 0.04
-                },
-                'rew_mean_uper_zero': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": 0.012,
-                    "end_weight": 0.012
-                }
             }
         }
     )
