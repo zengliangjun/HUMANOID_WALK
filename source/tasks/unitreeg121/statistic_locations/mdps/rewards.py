@@ -371,7 +371,7 @@ if False:
     from .rewards_uper import RewardsUperCfg
     from .rewards_leg import RewardsLegCfg
 else:
-    from .rewards_uper import RewardsUperCfg
+    from .rewards_upper import RewardsUperCfg
     from .rewards_leg import RewardsLegCfg
 
 @configclass
