@@ -8,7 +8,7 @@ class RewardsUperCfg():
     # shoulderp
     rew_mean_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_mean_symmetry,
-        weight= 0.04,
+        weight= 0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
@@ -23,7 +23,7 @@ class RewardsUperCfg():
     )
     rew_var_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_variance_symmetry,
-        weight=0.04,
+        weight=0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
@@ -38,7 +38,7 @@ class RewardsUperCfg():
     )
     rew_mean_uper_zero = RewardTermCfg(
         func=rew_statistics.rew_mean_zero,
-        weight=0.04,
+        weight=0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         ".*_shoulder_roll_joint",
@@ -52,7 +52,7 @@ class RewardsUperCfg():
     )
     rew_var_uper_zero = RewardTermCfg(
         func=rew_statistics.rew_variance_zero,
-        weight=0.04,
+        weight=0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         ".*_shoulder_roll_joint",
@@ -81,6 +81,8 @@ class PBRSUperCfg(RewardsUperCfg):
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.05,
+
+                "sigma": 0.85,
                 }
     )
     rew_var_uper_symmetry = RewardTermCfg(
@@ -96,6 +98,8 @@ class PBRSUperCfg(RewardsUperCfg):
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.008,
+
+                "sigma": 0.85,
                 }
     )
     rew_mean_uper_zero = RewardTermCfg(
@@ -110,6 +114,8 @@ class PBRSUperCfg(RewardsUperCfg):
                 "pos_statistics_name": "pos",
                 "error_std": 0.02,
 
+                "sigma": 0.85,
+
                 }
     )
     rew_var_uper_zero = RewardTermCfg(
@@ -123,5 +129,7 @@ class PBRSUperCfg(RewardsUperCfg):
                         ]),
                 "pos_statistics_name": "pos",
                 "error_std": 0.005,
+
+                "sigma": 0.85,
                 }
     )

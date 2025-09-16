@@ -99,6 +99,9 @@ class G1NormalCfgHistory(G1PBRSCfgRNN):
     observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
     rewards = rewards.NormalG21Cfg()
 
+    def __post_init__(self):
+        super().__post_init__()
+        self.curriculum = curriculum.CurriculumCfg2()
 
 @configclass
 class G1NormalCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):

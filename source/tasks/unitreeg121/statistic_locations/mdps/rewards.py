@@ -76,8 +76,8 @@ class RewardsCfg:
     )
     rew_motion_hard = RewardTermCfg(
         func=rew_task.rew_motion_hard,
-        weight=0.45,
-        params={"std": 0.25,
+        weight=1.65,
+        params={"std": math.sqrt(0.25),
                 "command_name": "base_velocity",
                 "asset_cfg": SceneEntityCfg("robot")},
     )
@@ -426,11 +426,13 @@ class RewardsCfg:
             "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_ankle_roll_link")
         },
     )
+    '''
     p_feet_in_air = RewardTermCfg(
         func=rew_feet.p_both_feet_in_air,
         weight=-0.5,
         params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_ankle_roll_link")}
     )
+    '''
     p_feet_clearance = RewardTermCfg(
         func=rew_feet.p_max_feet_height_before_contact,
         weight=-1.0,
@@ -464,6 +466,9 @@ from . import rewards_upper, rewards_leg
 
 
 @configclass
-#class RewardsG21Cfg(rewards_upper.RewardsUperCfg, rewards_leg.RewardsLegCfg, RewardsCfg):
-class RewardsG21Cfg(rewards_upper.PBRSUperCfg, rewards_leg.PBRSLegCfg, RewardsCfg):
+class PBRSG21Cfg(rewards_upper.PBRSUperCfg, rewards_leg.PBRSLegCfg, RewardsCfg):
+    pass
+
+@configclass
+class NormalG21Cfg(rewards_upper.RewardsUperCfg, rewards_leg.RewardsLegCfg, RewardsCfg):
     pass

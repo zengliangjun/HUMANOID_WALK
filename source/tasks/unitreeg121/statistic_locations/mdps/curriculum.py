@@ -294,3 +294,23 @@ class CurriculumCfg:
         }
     )
 
+
+@configclass
+class CurriculumCfg2(CurriculumCfg):
+    reward_leg_steps = CurriculumTermCfg(
+        func=adaptive.scale_with_degree,
+        params={
+            'degree': 0.00003,
+            'down_up_lengths': [120, 150],
+            "scale_range": [0, 1],
+            "scale": 0,
+            "manager_name": "reward",
+            "curriculums": {
+                'rew_var_leg_constraint': {    # reward name
+                    "param_name": "weight",
+                    "start_weight": 0.0015,
+                    "end_weight": 0.02
+                }
+            }
+        }
+    )
