@@ -64,8 +64,13 @@ from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper
 from isaaclab_tasks.utils import get_checkpoint_path
 from isaaclab_tasks.utils.hydra import hydra_task_config
 
+import os.path as osp
+_root = osp.join(osp.dirname(__file__), "../../source/")
+import sys
+sys.path.append(_root)
+
 # Import extensions to set up environment tasks
-import ext_template.tasks  # noqa: F401
+import tasks  # noqa: F401
 
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True

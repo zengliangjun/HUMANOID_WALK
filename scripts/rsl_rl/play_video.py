@@ -18,6 +18,8 @@ parser.add_argument(
 )
 parser.add_argument("--num_envs", type=int, default=None, help="Number of environments to simulate.")
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
+parser.add_argument("--track_robot", action="store_true", default=False, help="Name of the task.")
+
 # append RSL-RL cli arguments
 cli_args.add_rsl_rl_args(parser)
 # append AppLauncher cli args
@@ -51,6 +53,13 @@ sys.path.append(_root)
 
 # Import extensions to set up environment tasks
 import tasks  # noqa: F401
+
+def track_robot(_env):
+    robot_pos_w = _env.unwrapped.scene["robot"].data.root_pos_w[0].detach().cpu().numpy()
+    cam_eye = (robot_pos_w[0] + 2.6, robot_pos_w[1] + 2.6, 1.5)
+    cam_target = (robot_pos_w[0], robot_pos_w[1], 0.4)
+    # set the camera view
+    _env.unwrapped.sim.set_camera_view(eye=cam_eye, target=cam_target)
 
 
 def main():
@@ -108,6 +117,10 @@ def main():
 
     # reset environment
     obs, _ = env.get_observations()
+
+    if args_cli.track_robot:
+        track_robot(env)
+
     timestep = 0
     # simulate environment
     while simulation_app.is_running():
@@ -117,6 +130,10 @@ def main():
             actions = policy(obs)
             # env stepping
             obs, _, _, _ = env.step(actions)
+
+        if args_cli.track_robot:
+            track_robot(env)
+
         if args_cli.video:
             timestep += 1
             # Exit the play loop after recording one video
