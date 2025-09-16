@@ -7,7 +7,7 @@ from isaaclabex.envs import rl_env_exts_cfg
 from .mdps  import mdps, curriculum, rewards, obs, events
 
 @configclass
-class G1ObsStatisticsCfg(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
+class G1ObsStatisticsCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
     # Scene settings
     scene = scenes_cfg.BaseSceneCfg(num_envs=4096, env_spacing=2.5)
     # Basic settings
@@ -53,7 +53,7 @@ class G1ObsStatisticsCfg(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
 
 
 @configclass
-class G1ObsStatisticsCfg_PLAY(G1ObsStatisticsCfg):
+class G1ObsStatisticsCfgRNN_PLAY(G1ObsStatisticsCfgRNN):
     def __post_init__(self):
         super().__post_init__()
         self.curriculum = None
@@ -82,3 +82,13 @@ class G1ObsStatisticsCfg_PLAY(G1ObsStatisticsCfg):
         self.events.interval_actuator = None
         self.events.interval_mass = None
         self.events.interval_coms = None
+
+
+@configclass
+class G1ObsStatisticsCfgHistory(G1ObsStatisticsCfgRNN):
+    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+
+
+@configclass
+class G1ObsStatisticsCfgHistory_PLAY(G1ObsStatisticsCfgRNN_PLAY):
+    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
