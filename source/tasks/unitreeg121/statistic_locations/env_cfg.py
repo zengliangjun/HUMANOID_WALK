@@ -7,7 +7,7 @@ from isaaclabex.envs import rl_env_exts_cfg
 from .mdps  import mdps, curriculum, rewards, obs, events
 
 @configclass
-class G1ObsStatisticsCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
+class G1PBRSCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
     # Scene settings
     scene = scenes_cfg.BaseSceneCfg(num_envs=4096, env_spacing=2.5)
     # Basic settings
@@ -16,7 +16,7 @@ class G1ObsStatisticsCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
     commands = mdps.CommandsCfg()
     # MDP settings
     statistics = mdps.StatisticsCfg()
-    rewards = rewards.RewardsG21Cfg()
+    rewards = rewards.PBRSG21Cfg()
     terminations = mdps.TerminationsCfg()
     events = events.EventCfg()
     curriculum = curriculum.CurriculumCfg()
@@ -53,7 +53,7 @@ class G1ObsStatisticsCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
 
 
 @configclass
-class G1ObsStatisticsCfgRNN_PLAY(G1ObsStatisticsCfgRNN):
+class G1PBRSCfgRNN_PLAY(G1PBRSCfgRNN):
     def __post_init__(self):
         super().__post_init__()
         self.curriculum = None
@@ -85,10 +85,22 @@ class G1ObsStatisticsCfgRNN_PLAY(G1ObsStatisticsCfgRNN):
 
 
 @configclass
-class G1ObsStatisticsCfgHistory(G1ObsStatisticsCfgRNN):
+class G1PBRSCfgHistory(G1PBRSCfgRNN):
     observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
 
 
 @configclass
-class G1ObsStatisticsCfgHistory_PLAY(G1ObsStatisticsCfgRNN_PLAY):
+class G1PBRSCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):
     observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+
+
+@configclass
+class G1NormalCfgHistory(G1PBRSCfgRNN):
+    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+    rewards = rewards.NormalG21Cfg()
+
+
+@configclass
+class G1NormalCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):
+    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+    rewards = rewards.NormalG21Cfg()

@@ -2,11 +2,11 @@ from isaaclab.utils import configclass
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoAlgorithmCfg, RslRlPpoActorCriticCfg
 
 @configclass
-class G1ObsStatisticCfgRNN(RslRlOnPolicyRunnerCfg):
+class G1PBRSCfgRNN(RslRlOnPolicyRunnerCfg):
     num_steps_per_env = 24
     max_iterations = 80000
     save_interval = 1000
-    experiment_name = "g121obsStatistics_rnn"
+    experiment_name = "g121pbrs_rnn"
     empirical_normalization = False
     policy = RslRlPpoActorCriticCfg(
         class_name = "ActorCriticRecurrent",
@@ -36,11 +36,11 @@ class G1ObsStatisticCfgRNN(RslRlOnPolicyRunnerCfg):
         self.policy.rnn_num_layers=1
 
 @configclass
-class G1ObsStatisticCfgHistory(RslRlOnPolicyRunnerCfg):
+class G1PBRSCfgHistory(RslRlOnPolicyRunnerCfg):
     num_steps_per_env = 24
     max_iterations = 80000
     save_interval = 1000
-    experiment_name = "g121obsStatistics_history"
+    experiment_name = "g121pbrs_history"
     empirical_normalization = False
     policy = RslRlPpoActorCriticCfg(
         class_name = "ActorCritic",
@@ -63,3 +63,7 @@ class G1ObsStatisticCfgHistory(RslRlOnPolicyRunnerCfg):
         desired_kl=0.01,
         max_grad_norm=1.0,
     )
+
+@configclass
+class G1NormalCfgHistory(G1PBRSCfgHistory):
+    experiment_name = "g121normal_history"
