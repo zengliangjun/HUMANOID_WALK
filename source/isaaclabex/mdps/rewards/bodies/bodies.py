@@ -70,7 +70,11 @@ def reward_distance_b(
     quat_w = torch.repeat_interleave(asset.data.root_link_quat_w[:, None, :], pos.shape[1], dim=1)
 
     # 对提取的位置进行逆旋转转换，将世界坐标系位置转换到机器人基座坐标系
-    pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    try:
+        pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    except:
+        pos_b = math_utils.quat_rotate_inverse(quat_w, pos)
+
 
     # Extract the 2D positions (x, y) of the bodies based on provided body_ids.
     # pos = asset.data.body_pos_w[:, asset_cfg.body_ids, :2]
@@ -112,7 +116,11 @@ def reward_width(
     quat_w = torch.repeat_interleave(asset.data.root_link_quat_w[:, None, :], pos.shape[1], dim=1)
 
     # 对提取的位置进行逆旋转转换，将世界坐标系位置转换到机器人基座坐标系
-    pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    try:
+        pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    except:
+        pos_b = math_utils.quat_rotate_inverse(quat_w, pos)
+
 
     # width 计算：
     # 1. 从基座坐标系 pos_b 中提取 y 轴坐标（索引 1 表示 y 分量）
@@ -147,7 +155,11 @@ def penalize_width(
 
     # 转换到基座坐标系
     quat_w = torch.repeat_interleave(asset.data.root_link_quat_w[:, None, :], pos.shape[1], dim=1)
-    pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    try:
+        pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+    except:
+        pos_b = math_utils.quat_rotate_inverse(quat_w, pos)
+
 
     # 计算当前脚部宽度(成对计算)
     current_width = pos_b[:, 0::2, 1] - pos_b[:, 1::2, 1]
@@ -201,9 +213,14 @@ class Stability(ManagerTermBase):
         quat_w = torch.repeat_interleave(self.asset.data.root_link_quat_w[:, None, :], pos.shape[1], dim=1)
 
         # 对提取的位置进行逆旋转转换，将世界坐标系位置转换到机器人基座坐标系
-        pos_b = math_utils.quat_apply_inverse(quat_w, pos)
-        pos = torch.mean(pos_b[:, :, :2], dim=1)
-        com_b = math_utils.quat_apply_inverse(self.asset.data.root_link_quat_w, self.asset.data.root_com_pos_w)
+        try:
+            pos_b = math_utils.quat_apply_inverse(quat_w, pos)
+            pos = torch.mean(pos_b[:, :, :2], dim=1)
+            com_b = math_utils.quat_apply_inverse(self.asset.data.root_link_quat_w, self.asset.data.root_com_pos_w)
+        except:
+            pos_b = math_utils.quat_rotate_inverse(quat_w, pos)
+            pos = torch.mean(pos_b[:, :, :2], dim=1)
+            com_b = math_utils.quat_rotate_inverse(self.asset.data.root_link_quat_w, self.asset.data.root_com_pos_w)
 
         # 双足支撑稳定性计算 (只有两个支撑点)
         left_ankle = pos_b[:, 0, :2]  # 左脚踝位置(x,y)
