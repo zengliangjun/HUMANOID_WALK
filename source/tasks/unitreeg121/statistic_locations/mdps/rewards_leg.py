@@ -188,3 +188,19 @@ class PBRSLegCfg(RewardsLegCfg):
                 "sigma": 0.85,
                 }
     )
+
+    rew_bodies_symmetry = RewardTermCfg(
+        func=rew_statistics.rew_bodies_symmetry,
+        weight=0.1,
+        params={"asset_cfg":
+                SceneEntityCfg("robot",
+                    body_names=[
+                        "left_ankle_roll_link",
+                        "right_ankle_roll_link",
+                    ]),
+
+                "bodies_statistics_name": "bodies",
+                "std_ranges": [0.14, 0.21],
+                "error_std": 0.03,
+                }
+    )
