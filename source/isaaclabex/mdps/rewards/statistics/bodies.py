@@ -40,7 +40,6 @@ def rew_bodies_symmetry(
     rewmeanx = _exp_zero(meanx, error_std)
     rewmeanx = torch.sum(rewmeanx, dim = -1)
 
-    '''
     # walk
     stdx = torch.abs(torch.clamp_max(episode_std[..., 0] - std_ranges[0], 0)) + \
                      torch.clamp_min(episode_std[..., 0] - std_ranges[1], 0)
@@ -55,6 +54,5 @@ def rew_bodies_symmetry(
 
     walkflag = torch.logical_not(stand_flag)
     rewmeanx[walkflag] += rew_walkstdx[walkflag]
-    '''
 
     return rewmeanx

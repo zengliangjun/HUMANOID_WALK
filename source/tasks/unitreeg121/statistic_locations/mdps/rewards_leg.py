@@ -1,7 +1,7 @@
 from isaaclab.utils import configclass
 from isaaclab.managers import RewardTermCfg, SceneEntityCfg
 
-from isaaclabex.mdps.rewards import rew_statistics
+from isaaclabex.mdps.rewards import rew_statistics, rew_feet
 
 @configclass
 class RewardsLegCfg():
@@ -105,7 +105,7 @@ class RewardsLegCfg():
 class PBRSLegCfg(RewardsLegCfg):
     rew_mean_leg_symmetry = RewardTermCfg(
         func=rew_statistics.pbrs_mean_symmetry,
-        weight= 1,
+        weight= 1.5,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_hip_pitch_joint",
@@ -122,7 +122,7 @@ class PBRSLegCfg(RewardsLegCfg):
     )
     rew_var_leg_symmetry = RewardTermCfg(
         func=rew_statistics.pbrs_variance_symmetry,
-        weight=1,
+        weight=0.5,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_hip_pitch_joint",
@@ -201,6 +201,22 @@ class PBRSLegCfg(RewardsLegCfg):
 
                 "bodies_statistics_name": "bodies",
                 "std_ranges": [0.14, 0.21],
-                "error_std": 0.03,
+                "error_std": 0.04,
                 }
+    )
+
+    rew_times_symmetry = RewardTermCfg(
+        func=rew_feet.rew_times_symmetry,
+        weight=0.15,
+        params={
+            "command_name": "base_velocity",
+            "sensor_cfg": SceneEntityCfg(
+                "contact_forces",
+                body_names=[
+                    ".*left_ankle_roll_link",
+                    ".*right_ankle_roll_link"
+                ]
+            ),
+            "error_std": 0.06
+        },
     )

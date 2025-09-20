@@ -12,7 +12,7 @@ class CurriculumCfg:
         func=events.range_with_degree,
         params={
             "degree": 0.0000001,
-            "down_up_lengths":[800, 900],
+            "down_up_lengths":[700, 800],
             "scale_range": [0, 1],
             "scale": 0,
             "manager_name": "event",
@@ -100,7 +100,7 @@ class CurriculumCfg:
         func=adaptive.scale_with_degree,
         params={
             'degree': 0.0000001,
-            'down_up_lengths': [450, 700],
+            'down_up_lengths': [700, 900],
             "scale_range": [0, 1],
             "scale": 0,
             "manager_name": "reward",
@@ -122,7 +122,7 @@ class CurriculumCfg:
                 },
                 'p_action_rate_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -5e-3,
+                    "start_weight": -2e-3, #-5e-3,
                     "end_weight": -2e-2
                 },
                 'p_action_rate_LS': {    # reward name
@@ -132,7 +132,7 @@ class CurriculumCfg:
                 },
                 'p_action_rate_LD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -5e-3,
+                    "start_weight": -1e-3, #-5e-3,
                     "end_weight": -2e-2
                 },
                 'p_action_smoothness_US': {    # reward name
@@ -142,7 +142,7 @@ class CurriculumCfg:
                 },
                 'p_action_smoothness_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -8e-4,
+                    "start_weight": -4e-4, #-8e-4,
                     "end_weight": -4e-3
                 },
                 'p_action_smoothness_LS': {    # reward name
@@ -152,7 +152,7 @@ class CurriculumCfg:
                 },
                 'p_action_smoothness_LD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -8e-4,
+                    "start_weight": -2e-4, #-8e-4,
                     "end_weight": -4e-3
                 },
                 'p_energy_US': {    # reward name
@@ -162,7 +162,7 @@ class CurriculumCfg:
                 },
                 'p_energy_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -4e-6,
+                    "start_weight": -1e-6, #-4e-6,
                     "end_weight": -2e-5
                 },
                 'p_energy_LS': {    # reward name
@@ -172,7 +172,7 @@ class CurriculumCfg:
                 },
                 'p_energy_LD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -4e-6,
+                    "start_weight": -1e-6, #-4e-6,
                     "end_weight": -2e-5
                 },
                 'p_pos_limits_US': {    # reward name
@@ -202,7 +202,7 @@ class CurriculumCfg:
                 },
                 'p_jvel_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -2e-4,
+                    "start_weight": -1e-4, #-2e-4,
                     "end_weight": -1e-3
                 },
                 'p_jvel_LS': {    # reward name
@@ -212,7 +212,7 @@ class CurriculumCfg:
                 },
                 'p_jvel_LD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -2e-4,
+                    "start_weight": -5e-5, #-2e-4,
                     "end_weight": -1e-3
                 },
                 'p_jacc_US': {    # reward name
@@ -222,7 +222,7 @@ class CurriculumCfg:
                 },
                 'p_jacc_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -2.5e-8,
+                    "start_weight": -1.5e-8, # -2.5e-8,
                     "end_weight": -2.5e-7
                 },
                 'p_jacc_LS': {    # reward name
@@ -232,7 +232,7 @@ class CurriculumCfg:
                 },
                 'p_jacc_LD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -2.5e-8,
+                    "start_weight": -5e-9, # -2.5e-8,
                     "end_weight": -2.5e-7
                 },
                 'p_deviation_UD': {    # reward name
@@ -250,20 +250,10 @@ class CurriculumCfg:
                     "start_weight": -0.2, #-0.01,
                     "end_weight": -1
                 },
-                'p_legwidth': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": -1,
-                    "end_weight": -5
-                },
                 'p_orientation': {    # reward name
                     "param_name": "weight",
                     "start_weight": -1,
                     "end_weight": -5
-                },
-                'p_feet_vertical_force': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": -1e-3,
-                    "end_weight": -5e-3
                 },
                 'p_feet_vertical_force': {    # reward name
                     "param_name": "weight",

@@ -135,11 +135,11 @@ def reward_width(
     return torch.mean(torch.exp(-width / 6), dim=-1)
 
 
-def penalize_width(
+def reward_penalize_width(
     env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg,
     target_width: float = 0.2,
-    target_height: float = 0.78,
-    center_velocity: float = 0.4):
+    error_std: float = 0.025,
+    penalize_weight: float = -0.8):
     """优化后的脚部宽度惩罚函数，包含动态阈值和连续惩罚
 
     参数:
@@ -163,27 +163,10 @@ def penalize_width(
 
     # 计算当前脚部宽度(成对计算)
     current_width = pos_b[:, 0::2, 1] - pos_b[:, 1::2, 1]
+    error = torch.abs(current_width - target_width)
+    reward = torch.exp(- error / error_std) + penalize_weight * (error / error_std)
 
-    # 动态阈值计算(基于高度和速度)
-    height = asset.data.root_link_pos_w[:, 2:]
-    velocity = torch.norm(asset.data.root_link_lin_vel_w[:, :2], dim=1, keepdim= True)
-    width_factor = 0.8 + 0.2 * torch.sigmoid(height*2 - target_height) + 0.4 * torch.sigmoid(velocity*5 - center_velocity*5)
-    dynamic_width = target_width * width_factor
-
-    # 连续惩罚计算
-    width_ratio = current_width / dynamic_width
-    penalty = torch.sigmoid((0.5 - width_ratio) * 10)
-
-    # 安全宽度保护(绝对最小值)
-    # 单位说明：min_safe_width和current_width均为米(m)
-    min_safe_width = target_width * 0.6  # 0.6倍目标宽度(单位:m)
-    unsafe_penalty = torch.where(current_width < min_safe_width,
-                               (min_safe_width - current_width) * 20,  # 10为放大系数(无单位)
-                               0)
-
-    # 综合惩罚
-    total_penalty = penalty + unsafe_penalty
-    return torch.mean(total_penalty, dim=-1)
+    return torch.mean(reward, dim=-1)
 
 
 class Stability(ManagerTermBase):

@@ -30,7 +30,7 @@ p_body_lin_acc_l2 = isaaclab_rewards.body_lin_acc_l2               # L2 penalty 
 rew_body_distance = bodies.reward_distance                              # Reward based on body distance metric.
 rew_body_distance_b = bodies.reward_distance_b                              # Reward based on body distance metric.
 rew_width = bodies.reward_width                                 # Reward based on body width metric.
-p_width = bodies.penalize_width
+rp_width = bodies.reward_penalize_width
 
 rew_stability = bodies.Stability
 

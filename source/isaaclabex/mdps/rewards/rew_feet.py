@@ -2,6 +2,7 @@ from isaaclab.envs.mdp import rewards as isaaclab_rewards
 from isaaclab_tasks.manager_based.locomotion.velocity.mdp import rewards as loc_rewards
 from isaaclab_tasks.manager_based.locomotion.velocity.config.spot.mdp import rewards as spot_rewards
 from .feet import contact, feet
+from .statistics import feet as st_feet
 
 '''
 Feet Rewards and Penalties:
@@ -38,3 +39,4 @@ p_forces_z = contact.penalize_feet_forces_z                        # Reward base
 p_forces2 = contact.penalize_feet_forces                        # Additional penalty for contact forces.
 
 
+rew_times_symmetry = st_feet.TimesSymmetry
