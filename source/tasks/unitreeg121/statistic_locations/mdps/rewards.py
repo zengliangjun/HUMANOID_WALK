@@ -460,7 +460,7 @@ class RewardsCfg:
         weight=0.15,
     )
 
-from . import rewards_upper, rewards_leg
+from . import rewards_upper, rewards_leg, rewards_steps
 
 
 @configclass
@@ -469,4 +469,9 @@ class PBRSG21Cfg(rewards_upper.PBRSUperCfg, rewards_leg.PBRSLegCfg, RewardsCfg):
 
 @configclass
 class NormalG21Cfg(rewards_upper.RewardsUperCfg, rewards_leg.RewardsLegCfg, RewardsCfg):
+    pass
+
+
+@configclass
+class Steps21Cfg(rewards_steps.RewardsStepsCfg, RewardsCfg):
     pass

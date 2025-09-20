@@ -24,6 +24,26 @@ gym.register(
 )
 
 gym.register(
+    id="G1StepsRNN",
+    entry_point="isaaclabex.envs.rl_env_exts:ManagerBasedRLEnv_Extends",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{env_cfg.__name__}:G1StepsRNN",
+        "rsl_rl_cfg_entry_point": f"{ppo_cfg.__name__}:G1PBRSCfgRNN",
+    },
+)
+
+gym.register(
+    id="G1StepsRNN-Play",
+    entry_point="isaaclabex.envs.rl_env_exts:ManagerBasedRLEnv_Extends",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{env_cfg.__name__}:G1StepsRNN_PLAY",
+        "rsl_rl_cfg_entry_point": f"{ppo_cfg.__name__}:G1PBRSCfgRNN",
+    },
+)
+
+gym.register(
     id="G1PBRSCfgHistory-history",
     entry_point="isaaclabex.envs.rl_env_exts:ManagerBasedRLEnv_Extends",
     disable_env_checker=True,

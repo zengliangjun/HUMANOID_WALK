@@ -4,7 +4,7 @@ import isaaclab_tasks.manager_based.locomotion.velocity.mdp as mdp
 
 
 from isaaclabex.mdps.commands import commands_cfg
-from isaaclabex.mdps.statistics import joints, bodies
+from isaaclabex.mdps.statistics import joints, bodies, steps
 from isaaclabex.envs.managers import term_cfg
 
 @configclass
@@ -50,6 +50,39 @@ class StatisticsCfg:
         export_interval = 1000000
     )
 
+
+@configclass
+class StepsStatisticsCfg:
+    steps = term_cfg.StatisticsTermCfg(
+        func= steps.StatusStep,
+        params={
+            "command_name": "base_velocity",
+            "steptimes_flag": True,
+            "sensor_cfg": SceneEntityCfg("contact_forces",
+                body_names=[
+                    "left_ankle_roll_link",
+                    "right_ankle_roll_link"],
+                preserve_order = True),
+
+            "asset_cfg": SceneEntityCfg("robot",
+                body_names=[
+                    "left_elbow_link",
+                    "right_elbow_link",
+                    "left_rubber_hand",
+                    "right_rubber_hand",
+                ],
+                joint_names=[
+                    "left_hip_pitch_joint", "right_hip_pitch_joint",
+                    "left_knee_joint", "right_knee_joint",
+                    "left_shoulder_pitch_joint", "right_shoulder_pitch_joint",
+                    "left_elbow_joint", "right_elbow_joint",
+                ],
+                preserve_order = True),
+                },
+
+        # episode_truncation = 80,
+        export_interval = 1000000
+    )
 
 @configclass
 class CommandsCfg:

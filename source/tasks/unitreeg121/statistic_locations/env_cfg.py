@@ -107,3 +107,15 @@ class G1NormalCfgHistory(G1PBRSCfgRNN):
 class G1NormalCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):
     observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
     rewards = rewards.NormalG21Cfg()
+
+@configclass
+class G1StepsRNN(G1PBRSCfgRNN):
+    statistics = mdps.StepsStatisticsCfg()
+    rewards = rewards.Steps21Cfg()
+
+
+@configclass
+class G1StepsRNN_PLAY(G1PBRSCfgRNN_PLAY):
+    statistics = mdps.StepsStatisticsCfg()
+    rewards = rewards.Steps21Cfg()
+
