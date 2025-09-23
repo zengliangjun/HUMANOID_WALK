@@ -279,11 +279,10 @@ class RewardsCfg:
 
     # body
     rew_legwidth = RewardTermCfg(
-        func=rew_bodies.p_width,
+        func=rew_bodies.rew_width,
         weight=0.1,
         params={
-            "max_threshold": 0.27,
-            "min_threshold": 0.18,
+            "target_width": 0.238,
             "asset_cfg": SceneEntityCfg("robot",
                          body_names=[".*left_ankle_roll_link",
                                      ".*right_ankle_roll_link",
