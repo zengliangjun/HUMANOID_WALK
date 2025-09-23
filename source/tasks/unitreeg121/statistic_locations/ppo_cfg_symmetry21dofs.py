@@ -37,3 +37,7 @@ class G1CfgRNN(RslRlOnPolicyRunnerCfg):
         desired_kl=0.01,
         max_grad_norm=1.0,
     )
+
+@configclass
+class G1CfgV2RNN(G1CfgRNN):
+    experiment_name = "g121_symmetryv2"
