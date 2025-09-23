@@ -278,13 +278,12 @@ class RewardsCfg:
     )
 
     # body
-    p_legwidth = RewardTermCfg(
+    rew_legwidth = RewardTermCfg(
         func=rew_bodies.p_width,
-        weight=-5,
+        weight=0.1,
         params={
-            "target_width": 0.238,  # Adjusting for the foot clearance
-            "target_height": 0.78,
-            "center_velocity": 1.8,
+            "max_threshold": 0.27,
+            "min_threshold": 0.18,
             "asset_cfg": SceneEntityCfg("robot",
                          body_names=[".*left_ankle_roll_link",
                                      ".*right_ankle_roll_link",
@@ -296,7 +295,7 @@ class RewardsCfg:
         func=rew_bodies.rew_body_distance_b,
         weight=0.1,
         params={
-            "max_threshold": 0.50,  # Adjusting for the foot clearance
+            "max_threshold": 0.50,
             "min_threshold": 0.32,
             "asset_cfg": SceneEntityCfg("robot",
                          body_names=[".*left_elbow_link",
@@ -426,13 +425,13 @@ class RewardsCfg:
             "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_ankle_roll_link")
         },
     )
-    '''
+
     p_feet_in_air = RewardTermCfg(
         func=rew_feet.p_both_feet_in_air,
-        weight=-0.5,
+        weight=-5,
         params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_ankle_roll_link")}
     )
-    '''
+
     p_feet_clearance = RewardTermCfg(
         func=rew_feet.p_max_feet_height_before_contact,
         weight=-1.0,

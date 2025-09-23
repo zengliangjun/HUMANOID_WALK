@@ -250,11 +250,6 @@ class CurriculumCfg:
                     "start_weight": -0.2, #-0.01,
                     "end_weight": -1
                 },
-                'p_legwidth': {    # reward name
-                    "param_name": "weight",
-                    "start_weight": -1,
-                    "end_weight": -5
-                },
                 'p_orientation': {    # reward name
                     "param_name": "weight",
                     "start_weight": -1,
