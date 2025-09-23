@@ -32,3 +32,17 @@ class ZeroSmallCommand(UniformVelocityCommand):
         self.vel_command_b[zero_angle_ids, 2] *= 0
         self.is_standing_env[zero_ids] = True
 
+
+class SymmetryCommand(ZeroSmallCommand):
+    cfg: ZeroSmallCommandCfg
+
+    def __init__(self, cfg: ZeroSmallCommandCfg, env: ManagerBasedEnv):
+        super(SymmetryCommand, self).__init__(cfg, env)
+
+        self.symmetry_flags = torch.zeros_like(self.is_standing_env)
+
+
+    def _resample_command(self, env_ids: Sequence[int]):
+        super(SymmetryCommand, self)._resample_command(env_ids)
+        r = torch.empty(len(env_ids), device=self.device)
+        self.symmetry_flags[env_ids] = r.uniform_(0.0, 1.0) <= 0.5

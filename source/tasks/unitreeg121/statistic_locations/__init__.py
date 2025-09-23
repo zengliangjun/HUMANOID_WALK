@@ -1,1 +1,1 @@
-from . import register
+from . import register, register_symmetry21dofs
