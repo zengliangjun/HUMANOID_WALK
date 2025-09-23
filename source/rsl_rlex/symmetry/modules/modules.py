@@ -72,7 +72,7 @@ def symmetry_subclass(parent_class):
 
             actions = super(Symmetry, self).act_inference(observations)
 
-            actions[self.symmetry_flags] = self.symmetry_objs.mirror_action(actions[self.symmetry_flags])
+            actions[symmetry_flags] = self.symmetry_objs.mirror_action(actions[symmetry_flags])
 
             return actions
 

@@ -11,6 +11,7 @@ import cli_args  # isort: skip
 
 # add argparse arguments
 parser = argparse.ArgumentParser(description="Train an RL agent with RSL-RL.")
+parser.add_argument("--track_robot", action="store_true", default=False, help="Record videos during training.")
 parser.add_argument("--video", action="store_true", default=False, help="Record videos during training.")
 parser.add_argument("--video_length", type=int, default=200, help="Length of the recorded video (in steps).")
 parser.add_argument(
@@ -33,6 +34,11 @@ simulation_app = app_launcher.app
 
 """Rest everything follows."""
 
+import os.path as osp
+_root = osp.join(osp.dirname(__file__), "../../source/")
+import sys
+sys.path.append(_root)
+
 import gymnasium as gym
 import os
 import torch
@@ -44,14 +50,15 @@ from isaaclab.utils.dict import print_dict
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper, export_policy_as_jit, export_policy_as_onnx
 from isaaclab_tasks.utils import get_checkpoint_path, parse_env_cfg
 
-import os.path as osp
-_root = osp.join(osp.dirname(__file__), "../../source/")
-import sys
-sys.path.append(_root)
-
 # Import extensions to set up environment tasks
 import tasks  # noqa: F401
 
+def track_robot(_env):
+    robot_pos_w = _env.unwrapped.scene["robot"].data.root_pos_w[0].detach().cpu().numpy()
+    cam_eye = (robot_pos_w[0] + 2.6, robot_pos_w[1] + 2.6, 1.5)
+    cam_target = (robot_pos_w[0], robot_pos_w[1], 0.4)
+    # set the camera view
+    _env.unwrapped.sim.set_camera_view(eye=cam_eye, target=cam_target)
 
 def main():
     """Play with RSL-RL agent."""
@@ -108,6 +115,8 @@ def main():
 
     # reset environment
     obs, _ = env.get_observations()
+    if args_cli.track_robot:
+        track_robot(env)
     timestep = 0
     # simulate environment
     while simulation_app.is_running():
@@ -117,6 +126,11 @@ def main():
             actions = policy(obs)
             # env stepping
             obs, _, _, _ = env.step(actions)
+
+
+        if args_cli.track_robot:
+            track_robot(env)
+
         if args_cli.video:
             timestep += 1
             # Exit the play loop after recording one video
