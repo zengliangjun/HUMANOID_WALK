@@ -2,6 +2,7 @@
 from isaaclab.envs import ManagerBasedEnv
 from isaaclab.managers import SceneEntityCfg
 import torch
+import isaaclab.utils.math as math_utils
 from isaaclab.assets import Articulation
 from isaaclab.sensors import ContactSensor
 
@@ -55,6 +56,12 @@ def feet_pos(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg) -> torch.Tensor:
 
     root_pos_w = asset.data.root_pos_w[:, None, :]
     body_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids]
-    _feet_pos = body_pos_w - root_pos_w
+    feet_pos_w = body_pos_w - root_pos_w
 
-    return _feet_pos.flatten(1)
+    quat_w = torch.repeat_interleave(asset.data.root_quat_w[:, None, :], feet_pos_w.shape[1], dim=1)
+    try:
+        feet_pos = math_utils.quat_apply_inverse(quat_w, feet_pos_w)
+    except:
+        feet_pos = math_utils.quat_rotate_inverse(quat_w, feet_pos_w)
+
+    return feet_pos.flatten(1)
