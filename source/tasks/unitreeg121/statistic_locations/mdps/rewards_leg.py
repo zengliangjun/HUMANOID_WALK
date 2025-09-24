@@ -110,8 +110,6 @@ class PBRSLegCfg(RewardsLegCfg):
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -127,8 +125,6 @@ class PBRSLegCfg(RewardsLegCfg):
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -144,8 +140,6 @@ class PBRSLegCfg(RewardsLegCfg):
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
 
@@ -187,4 +181,23 @@ class PBRSLegCfg(RewardsLegCfg):
 
                 "sigma": 0.85,
                 }
+    )
+
+    rew_bodies_leg_symmetry = RewardTermCfg(
+        func=rew_statistics.pbrs_bodies_symmetry,
+        weight=1,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot",
+                body_names=[
+                    "left_ankle_roll_link",
+                    "right_ankle_roll_link",
+                ],
+                preserve_order=True
+            ),
+            "command_name": "base_velocity",
+            "error_std": 0.04,
+
+            "sigma": 0.85,
+        },
     )

@@ -75,8 +75,6 @@ class PBRSUperCfg(RewardsUperCfg):
                     joint_names=[
                         "left_shoulder_pitch_joint",
                         "right_shoulder_pitch_joint",
-                        "left_elbow_joint",
-                        "right_elbow_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -92,8 +90,6 @@ class PBRSUperCfg(RewardsUperCfg):
                     joint_names=[
                         "left_shoulder_pitch_joint",
                         "right_shoulder_pitch_joint",
-                        "left_elbow_joint",
-                        "right_elbow_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -133,3 +129,23 @@ class PBRSUperCfg(RewardsUperCfg):
                 "sigma": 0.85,
                 }
     )
+
+    rew_bodies_uper_symmetry = RewardTermCfg(
+        func=rew_statistics.pbrs_bodies_symmetry,
+        weight=1,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot",
+                body_names=[
+                    "left_rubber_hand",
+                    "right_rubber_hand",
+                ],
+                preserve_order=True
+            ),
+            "command_name": "base_velocity",
+            "error_std": 0.06,
+
+            "sigma": 0.85,
+        },
+    )
+

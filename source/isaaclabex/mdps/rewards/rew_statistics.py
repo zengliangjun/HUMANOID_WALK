@@ -1,4 +1,4 @@
-from .statistics import mean_joints, var_joints
+from .statistics import mean_joints, var_joints, bodies
 
 mirror_or_synchronize = mean_joints.mirror_or_synchronize
 
@@ -11,6 +11,8 @@ rew_variance_zero = var_joints.rew_variance_zero
 rew_variance_symmetry = var_joints.rew_variance_symmetry
 rew_variance_constraint = var_joints.rew_variance_constraint
 
+rew_bodies_symmetry = bodies.BodiesSymmetry
+
 from .pbrs import pbrs_statistics
 
 pbrs_mean_zero = pbrs_statistics.mean_zero           # L1 penalty for deviation from desired joint positions.
@@ -21,3 +23,5 @@ pbrs_mean_constraint = pbrs_statistics.mean_constraint
 pbrs_variance_zero = pbrs_statistics.variance_zero
 pbrs_variance_symmetry = pbrs_statistics.variance_symmetry
 pbrs_variance_constraint = pbrs_statistics.variance_constraint
+
+pbrs_bodies_symmetry = pbrs_statistics.bodies_symmetry

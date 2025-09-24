@@ -3,7 +3,7 @@ from collections.abc import Sequence
 import torch
 from typing import TYPE_CHECKING
 
-from .. statistics import mean_joints, var_joints
+from .. statistics import mean_joints, var_joints, bodies
 
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedRLEnv
@@ -193,6 +193,33 @@ class variance_constraint(pbrs_base.PbrsBase):
                  pos_statistics_name = pos_statistics_name,
                  max_constraint = max_constraint,
                  min_constraint = min_constraint,
+                 error_std = error_std)
+
+        return self._calculate(_penalize)
+
+
+class bodies_symmetry(pbrs_base.PbrsBase):
+
+    def __init__(self, cfg: RewardTermCfg, env: ManagerBasedRLEnv):
+        super().__init__(cfg, env)
+        self.bodiesSymmetry = bodies.BodiesSymmetry(cfg, env)
+
+    def __call__(
+        self,
+        env: ManagerBasedRLEnv,
+
+        asset_cfg: SceneEntityCfg,
+        command_name: str = "base_velocity",
+        error_std: float = 0.1,
+
+        method: int = pbrs_base.PBRSNormal,
+        sigma: float = 0.25,
+        gamma: float = 1,
+        ) -> torch.Tensor:
+
+        _penalize = self.bodiesSymmetry(
+                 env=env, asset_cfg=asset_cfg,
+                 command_name = command_name,
                  error_std = error_std)
 
         return self._calculate(_penalize)
