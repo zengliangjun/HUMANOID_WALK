@@ -50,7 +50,7 @@ class RewardsLegCfg():
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.008,
+                "error_std": 0.085,
                 }
     )
 
@@ -66,9 +66,9 @@ class RewardsLegCfg():
                         ]),
                 "pos_statistics_name": "pos",
 
-                "min_constraint": 0.035, # 0.045
-                "max_constraint": 0.06125,
-                "error_std": 0.008,
+                "min_constraint": 0.195, # 0.045
+                "max_constraint": 0.245,
+                "error_std": 0.085,
                 }
     )
 
@@ -83,7 +83,7 @@ class RewardsLegCfg():
                         ".*_ankle_roll_joint",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.02,
+                "error_std": 0.045,
                 }
     )
     rew_var_leg_zero = RewardTermCfg(
@@ -97,7 +97,7 @@ class RewardsLegCfg():
                         ".*_ankle_roll_joint",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.005,
+                "error_std": 0.045,
                 }
     )
 
@@ -132,7 +132,7 @@ class PBRSLegCfg(RewardsLegCfg):
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.008,
+                "error_std": 0.085,
 
                 "sigma": 0.85,
                 }
@@ -149,9 +149,9 @@ class PBRSLegCfg(RewardsLegCfg):
                         ]),
                 "pos_statistics_name": "pos",
 
-                "min_constraint": 0.035, # 0.045
-                "max_constraint": 0.06125,
-                "error_std": 0.004,
+                "min_constraint": 0.195, # 0.045
+                "max_constraint": 0.245,
+                "error_std": 0.085,
 
                 "sigma": 0.85,
                 }
@@ -167,7 +167,7 @@ class PBRSLegCfg(RewardsLegCfg):
                         ".*_ankle_roll_joint",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.02,
+                "error_std": 0.045,
 
                 "sigma": 0.85,
                 }
@@ -183,7 +183,7 @@ class PBRSLegCfg(RewardsLegCfg):
                         ".*_ankle_roll_joint",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.005,
+                "error_std": 0.045,
 
                 "sigma": 0.85,
                 }

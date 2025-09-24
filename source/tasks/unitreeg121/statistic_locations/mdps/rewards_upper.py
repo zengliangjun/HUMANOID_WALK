@@ -18,7 +18,7 @@ class RewardsUperCfg():
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.05,
+                "error_std": 0.085,
                 }
     )
     rew_var_uper_symmetry = RewardTermCfg(
@@ -33,7 +33,7 @@ class RewardsUperCfg():
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.008,
+                "error_std": 0.085,
                 }
     )
     rew_mean_uper_zero = RewardTermCfg(
@@ -46,7 +46,7 @@ class RewardsUperCfg():
                         "waist.*",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.02,
+                "error_std": 0.045,
 
                 }
     )
@@ -60,7 +60,7 @@ class RewardsUperCfg():
                         "waist.*",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.005,
+                "error_std": 0.045,
                 }
     )
 
@@ -80,7 +80,7 @@ class PBRSUperCfg(RewardsUperCfg):
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.05,
+                "error_std": 0.085,
 
                 "sigma": 0.85,
                 }
@@ -97,7 +97,7 @@ class PBRSUperCfg(RewardsUperCfg):
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.008,
+                "error_std": 0.085,
 
                 "sigma": 0.85,
                 }
@@ -112,7 +112,7 @@ class PBRSUperCfg(RewardsUperCfg):
                         "waist.*",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.02,
+                "error_std": 0.045,
 
                 "sigma": 0.85,
 
@@ -128,7 +128,7 @@ class PBRSUperCfg(RewardsUperCfg):
                         "waist.*",
                         ]),
                 "pos_statistics_name": "pos",
-                "error_std": 0.005,
+                "error_std": 0.045,
 
                 "sigma": 0.85,
                 }

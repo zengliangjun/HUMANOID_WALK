@@ -11,8 +11,8 @@ class CurriculumCfg:
     events_with_steps = CurriculumTermCfg(
         func=events.range_with_degree,
         params={
-            "degree": 0.0000001,
-            "down_up_lengths":[800, 900],
+            "degree": 0.000001,
+            "down_up_lengths":[350, 600],
             "scale_range": [0, 1],
             "scale": 0,
             "manager_name": "event",
@@ -100,7 +100,7 @@ class CurriculumCfg:
         func=adaptive.scale_with_degree,
         params={
             'degree': 0.0000001,
-            'down_up_lengths': [450, 700],
+            'down_up_lengths': [700, 850],
             "scale_range": [0, 1],
             "scale": 0,
             "manager_name": "reward",
