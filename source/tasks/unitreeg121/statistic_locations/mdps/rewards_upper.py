@@ -8,13 +8,11 @@ class RewardsUperCfg():
     # shoulderp
     rew_mean_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_mean_symmetry,
-        weight= 0.015,
+        weight= 0.05,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
                         "right_shoulder_pitch_joint",
-                        "left_elbow_joint",
-                        "right_elbow_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -23,13 +21,11 @@ class RewardsUperCfg():
     )
     rew_var_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_variance_symmetry,
-        weight=0.015,
+        weight=0.025,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
                         "right_shoulder_pitch_joint",
-                        "left_elbow_joint",
-                        "right_elbow_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -62,6 +58,23 @@ class RewardsUperCfg():
                 "pos_statistics_name": "pos",
                 "error_std": 0.045,
                 }
+    )
+
+    rew_bodies_uper_symmetry = RewardTermCfg(
+        func=rew_statistics.rew_bodies_symmetry,
+        weight=0.05,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot",
+                body_names=[
+                    "left_rubber_hand",
+                    "right_rubber_hand",
+                ],
+                preserve_order=True
+            ),
+            "command_name": "base_velocity",
+            "error_std": 0.06,
+        },
     )
 
 

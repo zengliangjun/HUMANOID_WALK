@@ -8,13 +8,11 @@ class RewardsLegCfg():
     # hipp knee
     rew_mean_leg_symmetry = RewardTermCfg(
         func=rew_statistics.rew_mean_symmetry,
-        weight= 0.015,
+        weight= 0.05,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -40,13 +38,11 @@ class RewardsLegCfg():
     '''
     rew_var_leg_symmetry = RewardTermCfg(
         func=rew_statistics.rew_variance_symmetry,
-        weight=0.015,
+        weight=0.025,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
@@ -56,13 +52,11 @@ class RewardsLegCfg():
 
     rew_var_leg_constraint = RewardTermCfg(
         func=rew_statistics.rew_variance_constraint,
-        weight=0.015,
+        weight=0.005,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_hip_pitch_joint",
                         "right_hip_pitch_joint",
-                        "left_knee_joint",
-                        "right_knee_joint"
                         ]),
                 "pos_statistics_name": "pos",
 
@@ -100,6 +94,23 @@ class RewardsLegCfg():
                 "error_std": 0.045,
                 }
     )
+    rew_bodies_leg_symmetry = RewardTermCfg(
+        func=rew_statistics.rew_bodies_symmetry,
+        weight=0.05,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot",
+                body_names=[
+                    "left_ankle_roll_link",
+                    "right_ankle_roll_link",
+                ],
+                preserve_order=True
+            ),
+            "command_name": "base_velocity",
+            "error_std": 0.04,
+        },
+    )
+
 
 @configclass
 class PBRSLegCfg(RewardsLegCfg):
