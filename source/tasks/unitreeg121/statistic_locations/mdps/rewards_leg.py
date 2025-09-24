@@ -115,7 +115,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.1,
 
-                "sigma": 0.45,
+                "sigma": 0.35,
                 }
     )
     rew_var_leg_symmetry = RewardTermCfg(
@@ -130,7 +130,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.085,
 
-                "sigma": 0.65,
+                "sigma": 0.45,
                 }
     )
     rew_var_leg_constraint = RewardTermCfg(
@@ -198,6 +198,6 @@ class PBRSLegCfg(RewardsLegCfg):
             "command_name": "base_velocity",
             "error_std": 0.04,
 
-            "sigma": 0.85,
+            "sigma": 0.65,
         },
     )
