@@ -117,7 +117,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.1,
 
-                "sigma": 0.85,
+                "sigma": 0.45,
                 }
     )
     rew_var_leg_symmetry = RewardTermCfg(
@@ -134,7 +134,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.085,
 
-                "sigma": 0.85,
+                "sigma": 0.65,
                 }
     )
     rew_var_leg_constraint = RewardTermCfg(
@@ -153,7 +153,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "max_constraint": 0.245,
                 "error_std": 0.085,
 
-                "sigma": 0.85,
+                "sigma": 3.35,
                 }
     )
     rew_mean_leg_zero = RewardTermCfg(
@@ -169,7 +169,7 @@ class PBRSLegCfg(RewardsLegCfg):
                 "pos_statistics_name": "pos",
                 "error_std": 0.045,
 
-                "sigma": 0.85,
+                "sigma": 1.15,
                 }
     )
     rew_var_leg_zero = RewardTermCfg(

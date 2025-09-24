@@ -237,8 +237,8 @@ class CurriculumCfg:
                 },
                 'p_deviation_UD': {    # reward name
                     "param_name": "weight",
-                    "start_weight": -0.16,
-                    "end_weight": -0.8
+                    "start_weight": -0.12,
+                    "end_weight": -0.6
                 },
                 'p_deviation_US': {    # reward name
                     "param_name": "weight",

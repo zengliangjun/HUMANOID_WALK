@@ -82,12 +82,12 @@ class PBRSUperCfg(RewardsUperCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.085,
 
-                "sigma": 0.85,
+                "sigma": 0.45,
                 }
     )
     rew_var_uper_symmetry = RewardTermCfg(
         func=rew_statistics.pbrs_variance_symmetry,
-        weight=1,
+        weight=1.5,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
@@ -99,7 +99,7 @@ class PBRSUperCfg(RewardsUperCfg):
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
                 "error_std": 0.085,
 
-                "sigma": 0.85,
+                "sigma": 0.65,
                 }
     )
     rew_mean_uper_zero = RewardTermCfg(
@@ -114,7 +114,7 @@ class PBRSUperCfg(RewardsUperCfg):
                 "pos_statistics_name": "pos",
                 "error_std": 0.045,
 
-                "sigma": 0.85,
+                "sigma": 1.15,
 
                 }
     )
