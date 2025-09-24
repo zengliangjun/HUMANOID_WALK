@@ -88,24 +88,29 @@ class BodiesSymmetry(ManagerTermBase):
 
         self._calculate_episode(pos_b)
 
-    def _calculate_meanx(self, error_std: float = 0.06):
+    def _calculate_meanx(self, error_std: float = 0.06,
+            penalize_weight: float = -0.25):
+
         episode_mean = self.episode_mean_buf
         mean0 = episode_mean[:, ::2, 0]
         mean1 = episode_mean[:, 1::2, 0]
 
         meanx = torch.abs(mean0 - mean1)
-        rewmeanx = torch.exp(- torch.square(meanx / (error_std * 0.6)))
+        penalize = torch.clamp_max(0.5 - meanx / (error_std * 0.6), max = 0)
+        rewmeanx = torch.exp(- torch.square(meanx / (error_std * 0.6))) + penalize_weight * torch.square(penalize)
         rewmeanx = torch.sum(rewmeanx, dim = -1)
         return rewmeanx
 
-    def _calculate_varx(self, error_std: float = 0.06):
+    def _calculate_varx(self, error_std: float = 0.06,
+            penalize_weight: float = -0.25):
 
         episode_variance = self.episode_variance_buf
         episode_std = torch.sqrt(episode_variance)
 
         # walk
         stdx = torch.abs(episode_std[:, ::2, 0] - episode_std[:, 1::2, 0])
-        rew_walkstdx = torch.exp(- torch.square(stdx / (error_std * 0.6)))
+        penalize = torch.clamp_max(0.5 - stdx / (error_std * 0.6), max = 0)
+        rew_walkstdx = torch.exp(- torch.square(stdx / (error_std * 0.6))) + penalize_weight * torch.square(penalize)
         rew_walkstdx = torch.sum(rew_walkstdx, dim = -1)
         # stand
         rew_standstdx = torch.exp(- torch.square(episode_std[..., 0] / error_std))
@@ -119,14 +124,14 @@ class BodiesSymmetry(ManagerTermBase):
 
         return rew_standstdx + rew_walkstdx
 
-
     def __call__(self,
             env: ManagerBasedRLEnv,
             command_name: str = "base_velocity",
             asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
-            error_std: float = 0.06
+            error_std: float = 0.06,
+            penalize_weight: float = -0.25
         ) -> torch.Tensor:
         self._update_flag()
         self._calcute_pose()
-        return self._calculate_meanx(error_std) + self._calculate_varx(error_std)
+        return self._calculate_meanx(error_std, penalize_weight) + self._calculate_varx(error_std, penalize_weight)
 

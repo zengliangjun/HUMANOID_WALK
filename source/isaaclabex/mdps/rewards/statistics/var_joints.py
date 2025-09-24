@@ -43,6 +43,7 @@ def rew_variance_symmetry(
 
     type: mirror_or_synchronize = mirror_or_synchronize.NONE,
     error_std: float = 0.1,
+    penalize_weight: float = -0.25
 
 ) -> torch.Tensor:
 
@@ -56,7 +57,9 @@ def rew_variance_symmetry(
 
     ##
     diff = episode_variance0 - episode_variance1
-    reward = _exp_zero(diff, error_std * 0.6)
+    penalize = torch.clamp_max(0.5 - torch.abs(diff) / (error_std * 0.6), max = 0)
+
+    reward = _exp_zero(diff, error_std * 0.6) + penalize_weight * torch.square(penalize)
 
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
