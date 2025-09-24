@@ -18,9 +18,9 @@ if TYPE_CHECKING:
 
 def _exp_zero(error, error_std, penalize_weight: float = None):
     if penalize_weight is None:
-        return torch.exp(- error / error_std)
+        return torch.exp(- torch.square(error / error_std))
 
-    return torch.exp(- error / error_std) + penalize_weight * (error / error_std)
+    return torch.exp(- torch.square(error / error_std)) + penalize_weight * (error / error_std)
 
 from enum import Enum
 class mirror_or_synchronize(Enum):
@@ -41,7 +41,7 @@ def rew_mean_zero(
 
     episode_mean = term.episode_mean_buf[:, asset_cfg.joint_ids]
 
-    reward = _exp_zero(torch.abs(episode_mean), error_std)
+    reward = _exp_zero(episode_mean, error_std)
 
     reward = torch.sum(reward, dim=-1)
 
@@ -66,12 +66,12 @@ def rew_mean_symmetry(
     episode_mean = term.episode_mean_buf[:, asset_cfg.joint_ids]
     means0 = episode_mean[:, ::2]
     means1 = episode_mean[:, 1::2]
-    diff = torch.abs(means0 - means1)
+    diff = means0 - means1
     reward = _exp_zero(diff, error_std)  # double weight
 
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
-        mean_error = torch.abs(term.step_mean_mean_buf[:, step_ids])
+        mean_error = term.step_mean_mean_buf[:, step_ids]
         reward = reward + _exp_zero(mean_error, error_std) / 3
 
     reward = torch.sum(reward, dim=-1)
@@ -98,11 +98,11 @@ def rew_mean_step_symmetry(
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
         step_mean_mean = term.step_mean_mean_buf[:, step_ids]
-        zeros = torch.abs(pos[:, ::2] + pos[:, 1::2] - 2 * step_mean_mean)
+        zeros = pos[:, ::2] + pos[:, 1::2] - 2 * step_mean_mean
         reward = _exp_zero(zeros, error_std)
 
     elif type == mirror_or_synchronize.SYNCHRONIZE:
-        zeros = torch.abs(pos[:, ::2] - pos[:, 1::2]) ###
+        zeros = pos[:, ::2] - pos[:, 1::2] ###
         reward = _exp_zero(zeros, error_std)
 
     reward = torch.sum(reward, dim=-1)

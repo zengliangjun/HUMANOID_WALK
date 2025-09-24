@@ -26,7 +26,7 @@ def rew_variance_zero(
     manager: StatisticsManager = env.statistics_manager
     term: joints.StatusJPos = manager.get_term(pos_statistics_name)
 
-    episode_variance = term.episode_variance_buf[:, asset_cfg.joint_ids]
+    episode_variance = torch.sqrt(term.episode_variance_buf[:, asset_cfg.joint_ids])
 
     reward = _exp_zero(episode_variance, error_std)
     reward = torch.sum(reward, dim=-1)
@@ -50,20 +50,20 @@ def rew_variance_symmetry(
     manager: StatisticsManager = env.statistics_manager
     term: joints.StatusJPos = manager.get_term(pos_statistics_name)
 
-    episode_variance = term.episode_variance_buf[:, asset_cfg.joint_ids]
+    episode_variance = torch.sqrt(term.episode_variance_buf[:, asset_cfg.joint_ids])
     episode_variance0 = episode_variance[:, ::2]
     episode_variance1 = episode_variance[:, 1::2]
 
     ##
-    diff = torch.abs(episode_variance0 - episode_variance1)
-    reward = _exp_zero(diff, error_std)
+    diff = episode_variance0 - episode_variance1
+    reward = _exp_zero(diff, error_std * 0.6)
 
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
 
         ## mean variance is zero
         step_ids = term.step_ids(asset_cfg)
-        step_mean_variance = term.step_mean_variance_buf[:, step_ids]
+        step_mean_variance = torch.sqrt(term.step_mean_variance_buf[:, step_ids])
         reward += _exp_zero(step_mean_variance, error_std)
 
     elif type == mirror_or_synchronize.SYNCHRONIZE:
@@ -71,8 +71,8 @@ def rew_variance_symmetry(
 
         ## mean variance equal to variance
         step_ids = term.step_ids(asset_cfg)
-        step_mean_variance = term.step_mean_variance_buf[:, step_ids]
-        step_variance_mean = term.step_variance_mean_buf[:, step_ids]
+        step_mean_variance = torch.sqrt(term.step_mean_variance_buf[:, step_ids])
+        step_variance_mean = torch.sqrt(term.step_variance_mean_buf[:, step_ids])
 
         diff = (torch.square(episode_variance0 - step_mean_variance) + torch.square(episode_variance1 - step_mean_variance)) / 2
         diff = (torch.sqrt(diff) + step_variance_mean) / 2
@@ -100,7 +100,7 @@ def rew_variance_constraint(
     manager: StatisticsManager = env.statistics_manager
     term: joints.StatusJPos = manager.get_term(pos_statistics_name)
 
-    episode_variance = term.episode_variance_buf[:, asset_cfg.joint_ids]
+    episode_variance = torch.sqrt(term.episode_variance_buf[:, asset_cfg.joint_ids])
 
     diffmin = torch.clamp(episode_variance - min_constraint, -50, 0)
     diffmax = torch.clamp(episode_variance - max_constraint, 0, 50)
