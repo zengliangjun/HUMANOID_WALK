@@ -7,7 +7,7 @@ from isaaclabex.envs import rl_env_exts_cfg
 from .mdps  import mdps, curriculum, rewards, obs, events
 
 @configclass
-class G1PBRSCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
+class G1PBRSCfg(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
     # Scene settings
     scene = scenes_cfg.BaseSceneCfg(num_envs=4096, env_spacing=2.5)
     # Basic settings
@@ -53,7 +53,7 @@ class G1PBRSCfgRNN(rl_env_exts_cfg.ManagerBasedRLExtendsCfg):
 
 
 @configclass
-class G1PBRSCfgRNN_PLAY(G1PBRSCfgRNN):
+class G1PBRSCfg_PLAY(G1PBRSCfg):
     def __post_init__(self):
         super().__post_init__()
         self.curriculum = None
@@ -85,25 +85,10 @@ class G1PBRSCfgRNN_PLAY(G1PBRSCfgRNN):
 
 
 @configclass
-class G1PBRSCfgHistory(G1PBRSCfgRNN):
-    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
-
-
-@configclass
-class G1PBRSCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):
-    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
-
-
-@configclass
-class G1NormalCfgHistory(G1PBRSCfgRNN):
-    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+class G1Cfg(G1PBRSCfg):
     rewards = rewards.NormalG21Cfg()
 
-    def __post_init__(self):
-        super().__post_init__()
-        self.curriculum = curriculum.CurriculumCfg2()
 
 @configclass
-class G1NormalCfgHistory_PLAY(G1PBRSCfgRNN_PLAY):
-    observations: obs.ObservationsHistoryCfg = obs.ObservationsHistoryCfg()
+class G1Cfg_PLAY(G1PBRSCfg_PLAY):
     rewards = rewards.NormalG21Cfg()

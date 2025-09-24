@@ -5,13 +5,13 @@ from .mdps  import rewards
 
 
 @configclass
-class G1Cfg(env_cfg.G1PBRSCfgRNN):
+class G1Cfg(env_cfg.G1PBRSCfg):
     commands: mdps_symmetry21dofs.CommandsCfg = mdps_symmetry21dofs.CommandsCfg()
     observations: mdps_symmetry21dofs.ObservationsCfg = mdps_symmetry21dofs.ObservationsCfg()
 
 
 @configclass
-class G1Cfg_PLAY(env_cfg.G1PBRSCfgRNN_PLAY):
+class G1Cfg_PLAY(env_cfg.G1PBRSCfg_PLAY):
     commands: mdps_symmetry21dofs.CommandsCfg = mdps_symmetry21dofs.CommandsCfg()
     observations: mdps_symmetry21dofs.ObservationsCfg = mdps_symmetry21dofs.ObservationsCfg()
 
