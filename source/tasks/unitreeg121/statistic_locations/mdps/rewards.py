@@ -76,7 +76,7 @@ class RewardsCfg:
     )
     rew_motion_hard = RewardTermCfg(
         func=rew_task.rew_motion_hard,
-        weight=1.65,
+        weight=0.65,
         params={"std": math.sqrt(0.25),
                 "command_name": "base_velocity",
                 "asset_cfg": SceneEntityCfg("robot")},

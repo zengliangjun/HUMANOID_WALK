@@ -8,7 +8,7 @@ class RewardsUperCfg():
     # shoulderp
     rew_mean_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_mean_symmetry,
-        weight= 0.05,
+        weight= 0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
@@ -16,12 +16,12 @@ class RewardsUperCfg():
                         ]),
                 "pos_statistics_name": "pos",
                 "type": rew_statistics.mirror_or_synchronize.MIRROR,
-                "error_std": 0.085,
+                "error_std": 0.1,
                 }
     )
     rew_var_uper_symmetry = RewardTermCfg(
         func=rew_statistics.rew_variance_symmetry,
-        weight=0.025,
+        weight=0.015,
         params={"asset_cfg": SceneEntityCfg("robot",
                     joint_names=[
                         "left_shoulder_pitch_joint",
