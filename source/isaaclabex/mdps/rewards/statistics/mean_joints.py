@@ -74,8 +74,15 @@ def rew_mean_symmetry(
 
     if type == mirror_or_synchronize.MIRROR:
         step_ids = term.step_ids(asset_cfg)
-        mean_error = term.step_mean_mean_buf[:, step_ids]
-        reward = reward + _exp_zero(mean_error, error_std) / 3
+        step_mean = term.step_mean_mean_buf[:, step_ids]
+
+        low = torch.clamp_min(step_mean - error_std * 0.6, min = 0)
+        uper = torch.clamp_max(step_mean + error_std * 0.6, max = 0)
+        error = torch.abs(low + uper)
+        penalize = torch.clamp_max(0.5 - error / (error_std * 0.6), max = 0)
+        reward2 = _exp_zero(error, error_std * 0.6) + penalize_weight * torch.square(penalize)
+
+        reward = reward + reward2 / 3
 
     reward = torch.sum(reward, dim=-1)
 
