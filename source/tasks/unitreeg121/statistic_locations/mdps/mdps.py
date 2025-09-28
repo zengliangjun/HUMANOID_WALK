@@ -37,10 +37,14 @@ class CommandsCfg:
         debug_vis=True,
         ranges=commands_cfg.ZeroSmallCommandCfg.Ranges(
             #lin_vel_x=(0, 4.5), lin_vel_y=(-0.75, 0.75), ang_vel_z=(-2., 2.), heading=(0., 0)
+            lin_vel_x=(0, 0.3), lin_vel_y=(-0.05, 0.05), ang_vel_z=(-0.05, 0.05), heading=(0., 0)
+        ),
+        limit_ranges=commands_cfg.ZeroSmallCommandCfg.Ranges(
+            #lin_vel_x=(0, 4.5), lin_vel_y=(-0.75, 0.75), ang_vel_z=(-2., 2.), heading=(0., 0)
             lin_vel_x=(0, 2.8), lin_vel_y=(-0.35, 0.35), ang_vel_z=(-2., 2.), heading=(0., 0)
         ),
-        small2zero_threshold_line=0.25,
-        small2zero_threshold_angle=0.25
+        small2zero_threshold_line=0.15,
+        small2zero_threshold_angle=0.05
     )
 
     def __post_init__(self):

@@ -1,12 +1,21 @@
 from isaaclab.utils import configclass
 from isaaclab.managers import CurriculumTermCfg
-from isaaclabex.mdps.curriculum import events, adaptive
+from isaaclabex.mdps.curriculum import events, adaptive, curriculums
 import isaaclab_tasks.manager_based.locomotion.velocity.mdp as mdp
 
 @configclass
 class CurriculumCfg:
 
     terrain_levels = CurriculumTermCfg(func=mdp.terrain_levels_vel)
+
+    lin_vel = CurriculumTermCfg(func=curriculums.lin_vel_cmd_levels,
+                                       params = {
+                                           "reward_term_name": "rew_lin_xy_exp"
+                                       })
+    ang_vel = CurriculumTermCfg(func=curriculums.ang_vel_cmd_levels,
+                                       params = {
+                                           "reward_term_name": "rew_ang_z_exp"
+                                       })
 
     events_with_steps = CurriculumTermCfg(
         func=events.range_with_degree,

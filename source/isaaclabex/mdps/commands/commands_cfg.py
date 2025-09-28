@@ -10,5 +10,7 @@ from .zero2small_command import ZeroSmallCommand
 class ZeroSmallCommandCfg(commands_cfg.UniformVelocityCommandCfg):
     class_type: type = ZeroSmallCommand
 
+    limit_ranges: commands_cfg.UniformVelocityCommandCfg.Ranges = MISSING
+
     small2zero_threshold_line: float = 0.2
     small2zero_threshold_angle: float = 0.1
