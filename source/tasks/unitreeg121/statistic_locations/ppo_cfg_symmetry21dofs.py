@@ -41,3 +41,7 @@ class G1CfgRNN(RslRlOnPolicyRunnerCfg):
 @configclass
 class G1CfgV2RNN(G1CfgRNN):
     experiment_name = "g121_symmetryv2"
+
+@configclass
+class G1CfgV3RNN(G1CfgRNN):
+    experiment_name = "g121_symmetryv3"

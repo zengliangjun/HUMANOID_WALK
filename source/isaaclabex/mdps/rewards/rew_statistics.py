@@ -1,4 +1,4 @@
-from .statistics import mean_joints, var_joints, bodies
+from .statistics import mean_joints, var_joints, bodies, joints, bodies_lines
 
 mirror_or_synchronize = mean_joints.mirror_or_synchronize
 
@@ -12,6 +12,9 @@ rew_variance_symmetry = var_joints.rew_variance_symmetry
 rew_variance_constraint = var_joints.rew_variance_constraint
 
 rew_bodies_symmetry = bodies.BodiesSymmetry
+rew_joints_symmetry = joints.JointsSymmetry
+rew_joints_zero = joints.JointsZero
+rew_linvel_symmetry = bodies_lines.BodiesSymmetry
 
 from .pbrs import pbrs_statistics
 

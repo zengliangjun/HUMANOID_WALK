@@ -41,3 +41,24 @@ gym.register(
         "rsl_rl_cfg_entry_point": f"{ppo_cfg_symmetry21dofs.__name__}:G1CfgV2RNN",
     },
 )
+
+
+gym.register(
+    id="G121SymmetryRNNV3",
+    entry_point="isaaclabex.envs.rl_env_exts:ManagerBasedRLEnv_Extends",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{env_cfg_symmetry21dofs.__name__}:G1CfgV3",
+        "rsl_rl_cfg_entry_point": f"{ppo_cfg_symmetry21dofs.__name__}:G1CfgV3RNN",
+    },
+)
+
+gym.register(
+    id="G121SymmetryRNNV3_PLAY",
+    entry_point="isaaclabex.envs.rl_env_exts:ManagerBasedRLEnv_Extends",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{env_cfg_symmetry21dofs.__name__}:G1CfgV3_PLAY",
+        "rsl_rl_cfg_entry_point": f"{ppo_cfg_symmetry21dofs.__name__}:G1CfgV3RNN",
+    },
+)

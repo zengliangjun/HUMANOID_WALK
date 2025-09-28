@@ -373,6 +373,7 @@ class RewardsCfg:
                                      ".*right_ankle_roll_link"])},
     )
 
+    '''
     rew_pitch2zero= RewardTermCfg(
         func=rew_bodies.rew_pitch_total2zero,
         weight=0.2,
@@ -389,6 +390,7 @@ class RewardsCfg:
                                      ".*left_ankle_roll_link",
                                      ".*right_ankle_roll_link"])},
     )
+    '''
 
     # feet
     rew_feet_air_time = RewardTermCfg(
@@ -469,4 +471,10 @@ class PBRSG21Cfg(rewards_upper.PBRSUperCfg, rewards_leg.PBRSLegCfg, RewardsCfg):
 
 @configclass
 class NormalG21Cfg(rewards_upper.RewardsUperCfg, rewards_leg.RewardsLegCfg, RewardsCfg):
+    pass
+
+from . import rewards_mix
+
+@configclass
+class MixG21Cfg(rewards_mix.RewardsCfg, RewardsCfg):
     pass
